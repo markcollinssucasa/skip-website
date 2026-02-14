@@ -12,9 +12,7 @@ import {
   Clock,
   House,
   Lock,
-  Shield,
   ShieldCheck,
-  Sparkles,
   Star,
   TrendingDown,
   Users,
@@ -24,11 +22,13 @@ import {
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { SkipLogoPressButton } from "@/components/brand/skip-logo-press-button";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
-  motion,
+  domAnimation,
+  LazyMotion,
+  m,
   MotionConfig,
   useInView,
   useReducedMotion,
@@ -238,6 +238,52 @@ function formatK(value: number) {
   return `${(value / 1000).toFixed(0)}k`;
 }
 
+function useScrollThreshold(getThreshold: () => number) {
+  const [crossed, setCrossed] = useState(false);
+
+  useEffect(() => {
+    let rafId = 0;
+
+    const update = () => {
+      rafId = 0;
+      const threshold = getThreshold();
+      const next = window.scrollY > threshold;
+      setCrossed((prev) => (prev === next ? prev : next));
+    };
+
+    const onScroll = () => {
+      if (rafId !== 0) return;
+      rafId = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      if (rafId !== 0) window.cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [getThreshold]);
+
+  return crossed;
+}
+
+function RenderBoundary({
+  children,
+  intrinsicSize = "1200px",
+}: {
+  children: React.ReactNode;
+  intrinsicSize?: string;
+}) {
+  return (
+    <div style={{ contentVisibility: "auto", containIntrinsicSize: intrinsicSize }}>
+      {children}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Animated section wrapper                                           */
 /* ------------------------------------------------------------------ */
@@ -255,7 +301,7 @@ function AnimatedSection({
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={{ opacity: 0, y: 32 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -263,7 +309,7 @@ function AnimatedSection({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -272,16 +318,7 @@ function AnimatedSection({
 /* ------------------------------------------------------------------ */
 
 function StickyHeader() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 40);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const scrolled = useScrollThreshold(useCallback(() => 40, []));
 
   return (
     <header
@@ -312,7 +349,7 @@ function StickyHeader() {
           ))}
         </nav>
         <a
-          href="#apply"
+          href="https://apply.skiploans.com.au/"
           className={cn(
             buttonVariants({ variant: scrolled ? "brand" : "mint", size: "sm" }),
             "rounded-full px-5 text-[0.82rem]",
@@ -330,7 +367,7 @@ function StickyHeader() {
 /*  Hero                                                               */
 /* ------------------------------------------------------------------ */
 
-function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
+function Hero({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
   const shouldReduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -342,7 +379,7 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
       className="relative flex min-h-[100svh] items-end overflow-hidden bg-brand"
     >
       {/* Background image */}
-      <motion.div
+      <m.div
         style={shouldReduceMotion ? undefined : { scale }}
         className="absolute inset-0"
       >
@@ -351,21 +388,24 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
           alt="Kangaroo celebrating in front of a sold property sign"
           fill
           priority
+          fetchPriority="high"
+          sizes="100vw"
+          quality={74}
           className="object-cover"
           style={{ objectPosition: "62% 18%" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b md:from-brand/20 md:via-brand/20 md:to-brand/90  from-brand/0 via-brand/40 to-brand/90" />
         <div className="absolute inset-0 bg-gradient-to-r md:from-brand/60 md:via-brand/20 md:to-brand/40 from-brand/20 via-brand/20 to-brand/20" />
-      </motion.div>
+      </m.div>
 
       {/* Content */}
-      <motion.div
+      <m.div
         style={shouldReduceMotion ? undefined : { opacity }}
         className="relative z-10 w-full"
       >
         <div className="mx-auto max-w-7xl px-5 pb-10 pt-32 md:px-8 md:pb-16 md:pt-40 lg:pb-20">
           <div className="max-w-2xl space-y-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15, ease: MOTION_EASE }}
@@ -378,9 +418,9 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
                 lineTwo="owning bit."
                 priorityLogo
               />
-            </motion.div>
+            </m.div>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.35, ease: MOTION_EASE }}
@@ -389,16 +429,16 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
               2% Deposit Home Loans.
               <br className="hidden sm:block" />
                 Same process. Same security. 10x less deposit.
-            </motion.p>
+            </m.p>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.55, ease: MOTION_EASE }}
               className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center"
             >
-              <motion.a
-                href="#apply"
+              <m.a
+                href="https://apply.skiploans.com.au/"
                 onClick={onCtaClick}
                 whileHover={
                   shouldReduceMotion
@@ -413,8 +453,8 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
               >
                 Start your application
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </motion.a>
-              <motion.a
+              </m.a>
+              <m.a
                 href="#calculator"
                 whileHover={
                   shouldReduceMotion
@@ -428,12 +468,12 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
                 )}
               >
                 See what you can afford
-              </motion.a>
-            </motion.div>
+              </m.a>
+            </m.div>
           </div>
 
           {/* Social proof bar — compact on mobile, cards on md+ */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.75, ease: MOTION_EASE }}
@@ -480,9 +520,9 @@ function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }
@@ -525,11 +565,8 @@ function TrustStrip() {
 /* ------------------------------------------------------------------ */
 
 function ValuePropSection() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="section-y-lg bg-canvas">
+    <section className="section-y-lg bg-canvas">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           {/* Left: copy */}
@@ -712,7 +749,7 @@ function FirstHomeBuyerConstraintSection() {
         <AnimatedSection delay={0.2}>
           <div className="mt-8 text-center">
             <a
-              href="#apply"
+              href="https://apply.skiploans.com.au/"
               className={cn(
                 buttonVariants({ variant: "brand", size: "lg" }),
                 "rounded-full px-8",
@@ -828,7 +865,7 @@ function RatesSection() {
 
                     <div className="flex flex-wrap items-center gap-3">
                       <a
-                        href="#apply"
+                        href="https://apply.skiploans.com.au/"
                         className={cn(
                           buttonVariants({ variant: "brand", size: "lg" }),
                           "rounded-full px-6",
@@ -946,7 +983,7 @@ function CalculatorSection() {
                     </p>
                   </div>
                   <a
-                    href="#apply"
+                    href="https://apply.skiploans.com.au/"
                     className={cn(
                       buttonVariants({ variant: "mint", size: "lg" }),
                       "w-fit rounded-full px-7 text-brand-dark font-semibold",
@@ -1058,7 +1095,9 @@ function JourneySection() {
                       src={card.imageSrc}
                       alt={card.imageAlt}
                       fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
+                      sizes="(min-width: 1280px) 392px, (min-width: 768px) calc((100vw - 6.5rem) / 3), calc(100vw - 2.5rem)"
+                      quality={72}
+                      loading="lazy"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand/20 via-transparent to-transparent" />
@@ -1181,7 +1220,7 @@ function FAQSection() {
                 Our team is ready to help.
               </p>
               <a
-                href="#apply"
+                href="https://apply.skiploans.com.au/"
                 className="group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-brand"
               >
                 Talk to a specialist
@@ -1220,7 +1259,7 @@ function FAQSection() {
 /*  Final CTA                                                          */
 /* ------------------------------------------------------------------ */
 
-function FinalCTA({ onCtaClick }: { onCtaClick?: () => void }) {
+function FinalCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
   return (
     <section id="apply" className="mx-auto max-w-7xl px-5 pb-14 md:px-8 md:pb-20">
       <AnimatedSection>
@@ -1252,15 +1291,17 @@ function FinalCTA({ onCtaClick }: { onCtaClick?: () => void }) {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                variant="mint"
-                size="lg"
-                className="rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]"
+              <a
+                href="https://apply.skiploans.com.au/"
+                className={cn(
+                  buttonVariants({ variant: "mint", size: "lg" }),
+                  "rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]",
+                )}
                 onClick={onCtaClick}
               >
                 Start my application
                 <ArrowRight className="h-4 w-4" />
-              </Button>
+              </a>
               <a
                 href="#calculator"
                 className={cn(
@@ -1383,24 +1424,15 @@ function FooterLinks({
 /*  Mobile sticky CTA                                                  */
 /* ------------------------------------------------------------------ */
 
-function MobileStickyCTA({ onCtaClick }: { onCtaClick?: () => void }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    function onScroll() {
-      setVisible(window.scrollY >= window.innerHeight * 0.6);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+function MobileStickyCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
+  const visible = useScrollThreshold(useCallback(() => window.innerHeight * 0.6, []));
 
   if (!visible) return null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/15 bg-brand/95 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] backdrop-blur-xl md:hidden">
       <a
-        href="#apply"
+        href="https://apply.skiploans.com.au/"
         onClick={onCtaClick}
         className={cn(
           buttonVariants({ variant: "mint", size: "lg" }),
@@ -1429,7 +1461,7 @@ function useRooHopAnimation() {
 
   useEffect(() => () => timers.current.forEach((id) => clearTimeout(id)), []);
 
-  const trigger = useCallback(() => {
+  const trigger = useCallback((onComplete?: () => void) => {
     if (running.current) return;
     running.current = true;
     setPhase("intro");
@@ -1439,6 +1471,7 @@ function useRooHopAnimation() {
       window.setTimeout(() => {
         setPhase("idle");
         running.current = false;
+        onComplete?.();
       }, 860),
     ];
   }, []);
@@ -1474,44 +1507,79 @@ function RooHopOverlay({ phase }: { phase: "idle" | "intro" | "hop" | "outro" })
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
+const APPLY_URL = "https://apply.skiploans.com.au/";
+
 export default function Option8Page() {
   const { trigger: triggerRoo, phase: rooPhase } = useRooHopAnimation();
 
+  const handleCtaClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      triggerRoo(() => {
+        window.location.href = APPLY_URL;
+      });
+    },
+    [triggerRoo],
+  );
+
   return (
-    <MotionConfig reducedMotion="user">
-      <main className="bg-canvas text-ink">
-        <StickyHeader />
-        <Hero onCtaClick={triggerRoo} />
-        <TrustStrip />
-        <ValuePropSection />
-        <RatesSection />
-        <CalculatorSection />
-        <FirstHomeBuyerConstraintSection />
-        <HowItWorksSection />
-        <JourneySection />
-        <ReviewsSection />
-        <FAQSection />
-        <FinalCTA onCtaClick={triggerRoo} />
-        <MarqueeStrip />
-        <Footer />
-        <MobileStickyCTA onCtaClick={triggerRoo} />
-        <RooHopOverlay phase={rooPhase} />
+    <LazyMotion features={domAnimation}>
+      <MotionConfig reducedMotion="user">
+        <main className="bg-canvas text-ink">
+          <StickyHeader />
+          <Hero onCtaClick={handleCtaClick} />
+          <TrustStrip />
+          <ValuePropSection />
 
-        <style jsx global>{`
-          .marquee-track {
-            animation: skip-marquee 30s linear infinite;
-          }
-          @keyframes skip-marquee {
-            from {
-              transform: translateX(0);
-            }
-            to {
-              transform: translateX(-50%);
-            }
-          }
+          <RenderBoundary intrinsicSize="1050px">
+            <RatesSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="980px">
+            <CalculatorSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="980px">
+            <FirstHomeBuyerConstraintSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="860px">
+            <HowItWorksSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="980px">
+            <JourneySection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="1120px">
+            <ReviewsSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="940px">
+            <FAQSection />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="760px">
+            <FinalCTA onCtaClick={handleCtaClick} />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="90px">
+            <MarqueeStrip />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="520px">
+            <Footer />
+          </RenderBoundary>
+          <MobileStickyCTA onCtaClick={handleCtaClick} />
+          <RooHopOverlay phase={rooPhase} />
 
-        `}</style>
-      </main>
-    </MotionConfig>
+          <style jsx global>{`
+            .marquee-track {
+              animation: skip-marquee 30s linear infinite;
+            }
+            @keyframes skip-marquee {
+              from {
+                transform: translateX(0);
+              }
+              to {
+                transform: translateX(-50%);
+              }
+            }
+
+          `}</style>
+        </main>
+      </MotionConfig>
+    </LazyMotion>
   );
 }
