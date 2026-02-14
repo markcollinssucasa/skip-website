@@ -1,0 +1,167 @@
+components/brand/skip-logo-press-button.tsx
+  720456c9420a7f4f 2,6-32,34-38,40,43-44,93,96-99,103-111,280,303
+  83c25ef322119aad 1,3-5,33,39,41-42,45-92,94-95,100-102,112-124,127,130,132-231,235-241,243-246,248-250,252-254,257-258,261-263,265-279,281-302
+  cd880ac1139ea65f 125-126,128-129,131,232-234,242,247,251,255-256,259-260,264
+app/page.tsx
+  720456c9420a7f4f 1042
+  fdeaddebf5086c9c 24,291,294,847-848,850,852,855-867,869-886,888-901,1226-1230,1232-1235,1237-1262,1264-1272,1274-1278,1280-1282,1325,1364,1432
+  ddaeb7566430cbc7 1-2,6-17,19-23,25-29,35-51,53-66,165,208-209,233-244,258-260,262-264,270-272,276-282,287-289,292-293,295-298,301-308,310-313,316,319,321-325,328,331,333-336,340-341,343-352,368-377,379-380,382-384,386-387,397,399-400,402-407,409-433,435-453,455-464,466-484,486,488-494,496-504,506-546,548-552,555-562,564-567,577,586,588-590,592-595,597-598,601-608,610-618,622-624,626,628-634,642,646-653,655,657-673,681-692,696,698-707,715-729,731-734,736,738-747,749-750,752-754,756-757,760-765,767-774,776-785,787-791,796-803,805-820,822-846,902-906,908-912,914-916,918-919,921-923,925,932-933,935-945,947-948,950-952,954-955,958,960-962,964,970-971,974-979,984-992,995-998,1000-1003,1005,1007,1019-1036,1038-1041,1043,1045-1059,1062-1099,1101-1105,1107-1116,1118,1120-1131,1133-1137,1139-1141,1143-1144,1146-1149,1151-1154,1156-1159,1161-1163,1174-1177,1179-1180,1182-1185,1187-1190,1192-1195,1197-1199,1202-1225,1316-1318,1323-1324,1326,1328-1329,1331-1332,1334,1345,1347-1350,1352-1353,1356-1358,1361,1363,1365-1367,1369-1389,1391-1400,1402-1405,1407-1418,1420,1422-1425,1427-1431,1433
+  b4bf51e0535d4874 267,274,284,286,300
+  dc54f0f861c5ad65 1044,1060-1061
+  f43a3dca0c8c3959 388-390,393-395,465,775,993-994,999,1006,1010-1018
+  83c25ef322119aad 3,5,18,30-34,52,67-164,166-207,210-232,245-257,261,268,283,290,309,314-315,317-318,326-327,329-330,337-339,342,353-366,378,381,385,391,396,398,401,408,434,485,487,495,505,547,553-554,563,568-576,578-585,587,591,596,599-600,609,619-621,625,627,635-641,643-645,654,674-680,693-695,697,708-714,735,748,751,755,758-759,766,786,792-795,804,821,849,851,853-854,868,887,907,913,917,920,924,926-931,934,946,949,953,956-957,963,965-969,972,981-983,1004,1008-1009,1037,1106,1117,1119,1132,1138,1142,1145,1150,1155,1160,1164-1173,1178,1181,1186,1191,1196,1200-1201,1231,1236,1263,1273,1279,1283-1312,1319-1322,1327,1330,1333,1335-1344,1346,1351,1354-1355,1359-1360,1362,1368,1390,1401,1406,1419,1421,1426,1434-1436
+components/brand/skip-to-owning-bit-heading.tsx
+  3025299ec7e818f7 1-5,7,10-12,14-24,26-33,41,46-49
+  f43a3dca0c8c3959 6,8-9,13,25,35-38,40,42
+  b4bf51e0535d4874 34,43-45
+  ddaeb7566430cbc7 39
+public/brand/skip-logo-tm-1.svg
+  b4bf51e0535d4874 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "60a5be99f04c5462fd9e244443605677f793bbc0",
+  "prompts": {
+    "3025299ec7e818f7": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "15dee542-901c-4b6e-a3e3-b8f28773a85d",
+        "model": "composer-1.5"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 7,
+      "accepted_lines": 33,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a9130b6e2f31ff88f3ff057fd32837bb82bc8b52793f6cf462b08b25822e4989"
+    },
+    "720456c9420a7f4f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fa86dd7e-e98e-41f1-952e-a571f5e20789",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 77,
+      "total_deletions": 28,
+      "accepted_lines": 53,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/af8b78a2634d81d3d90e7346cb9fe45b8dfd4fd5e054ab6e8afdf65405483eda"
+    },
+    "83c25ef322119aad": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "06f731cd-39c7-4d47-9a0d-862f2d106c2f",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 761,
+      "total_deletions": 306,
+      "accepted_lines": 673,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7e967d6084c8d7adc04d9e6cae343be46e7f2173a13ae643a58854c3028ee28e"
+    },
+    "ad7f3fccbc7bce45": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cbb2072a-1f64-4269-8785-7cd58b8c3514",
+        "model": "composer-1.5"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 0,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/15b1777a7d8ee35c6b3e8501e084d2a5ce381154f0027839ba3086f29805a125"
+    },
+    "b4bf51e0535d4874": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "317ed8ba-2e5d-436b-9988-d0555845e4de",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 41,
+      "total_deletions": 24,
+      "accepted_lines": 33,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/35719f9fa8bac7eb71a1c02cb23f15c6b4f130c4709055fb54f1ef35b1c88b9a"
+    },
+    "cd880ac1139ea65f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "89598573-ae30-4eb2-b69d-38af89bbe7fc",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 34,
+      "accepted_lines": 16,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/da445561ce4f91f2f30773125dad26d57ee8de56b55d4bdbc78a5e17d21ba61c"
+    },
+    "dc54f0f861c5ad65": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "1a43c16f-2b31-4015-a9f3-2466279385ba",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 12,
+      "total_deletions": 9,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/741a2a7ab9230cfd3b793a3c0484572293316ad10a16a02aec0dfcc47738fe4d"
+    },
+    "ddaeb7566430cbc7": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a859a56a-7f80-4eba-8344-3399397a7c92",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 1128,
+      "total_deletions": 70,
+      "accepted_lines": 848,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/b2df38c08558149cd5913814d83683f618170c45a9b64297b7fa0ed356512eeb"
+    },
+    "f43a3dca0c8c3959": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "8b46a9a6-b64c-432f-bfd8-0b86cc2b36bb",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 63,
+      "total_deletions": 38,
+      "accepted_lines": 32,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8dc1b26966389fb53e57beb485e1523c87b295b95d052b6216f849604960851b"
+    },
+    "fdeaddebf5086c9c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "96bb2011-bfd3-4481-b519-a2ef5094a830",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 142,
+      "total_deletions": 24,
+      "accepted_lines": 107,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3e8a59f0ae4d397cf70d899ef7a54c52f71eb5e9092d347aaf6d21d8db8c66ab"
+    }
+  }
+}
