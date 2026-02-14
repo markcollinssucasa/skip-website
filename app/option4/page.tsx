@@ -267,14 +267,24 @@ function Hero() {
     <section className="relative flex min-h-screen items-end justify-center overflow-hidden">
       <motion.div style={shouldReduceMotion ? undefined : { scale }} className="absolute inset-0">
         <Image
-          src="/hero-kangaroo.png"
+          src="/hero-kangaroo-wide.png"
           alt="Kangaroo celebrating in front of a sold property sign"
           fill
           priority
-          className="object-cover object-center md:object-[center_40%]"
+          className="object-cover md:object-[center_40%]!"
+          style={{ objectPosition: '65% 15%' }}
+          // style={{
+          //   maskImage:
+          //     "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+          //   maskComposite: "intersect",
+          //   WebkitMaskImage:
+          //     "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+          //   WebkitMaskComposite: "destination-in",
+          // }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand/25 via-brand/78 to-brand/35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand/35 via-transparent to-brand/30" />
+         {/* <div className="absolute inset-0 bg-black/50" /> */}
+        <div className="absolute inset-0 bg-linear-to-b from-black/0 mdvia-black/10 md:to-black/50 via-black/10 to-black/70" />
+        <div className="absolute inset-0 bg-linear-to-r md:from-black/50 md:via-black/10 md:to-black/50" />
       </motion.div>
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(121,200,155,0.2),transparent_38%)]" />

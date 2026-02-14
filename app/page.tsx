@@ -2,13 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <Link
-        href="/original"
-        className="text-lg text-blue-600 underline hover:text-blue-800"
-      >
-        Go to Original Page
-      </Link>
+    <main className="flex min-h-screen items-center justify-center flex-col gap-4">
       <Link
         href="/option1"
         className="text-lg text-blue-600 underline hover:text-blue-800"
@@ -20,13 +14,44 @@ export default function Home() {
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
         Go to Option 2 Page
-      </Link> 
+      </Link>
       <Link
         href="/option3"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
         Go to Option 3 Page
       </Link>
+      <Link
+        href="/option4"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 4 Page
+      </Link>
+      <Link
+        href="/option5"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 5 Page
+      </Link>
+      <Link
+        href="/option6"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 6 Page
+      </Link>
+      <Link
+        href="/option7"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 7 Page
+      </Link>
+      <Link
+        href="/option8"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 8 Page
+      </Link>
     </main>
+
   );
 }

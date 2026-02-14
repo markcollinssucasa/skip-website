@@ -16,10 +16,13 @@ import {
 } from "lucide-react";
 
 import { SkipLogo } from "@/components/brand/skip-logo";
-import { Badge } from "@/components/ui/badge";
+import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+
+const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
 
 type RateMode = "purchase" | "refinance";
 
@@ -184,6 +187,149 @@ function formatK(value: number) {
   return `${(value / 1000).toFixed(0)}k`;
 }
 
+
+function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const scale = useTransform(scrollY, [0, 400], [1, 1.08]);
+
+  return (
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+      <motion.div style={shouldReduceMotion ? undefined : { scale }} className="absolute inset-0">
+        <Image
+          src="/hero-kangaroo.png"
+          alt="Kangaroo celebrating in front of a sold property sign"
+          fill
+          priority
+          className="object-cover object-center md:object-[center_40%] md:scale-70"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            maskComposite: "intersect",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskComposite: "destination-in",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-linear-to-b from-brand/15 via-brand/50 to-brand/15" />
+        <div className="absolute inset-0 bg-linear-to-r from-brand/35 via-transparent to-brand/30" />
+      </motion.div>
+      <motion.div style={shouldReduceMotion ? undefined : { scale }} className="absolute inset-0">
+        <Image
+          src="/skip-yellow-head-and-friend.png"
+          alt="Kangaroo celebrating in front of a sold property sign"
+          fill
+          priority
+          className="object-cover object-center md:object-[center_0%]"
+          // style={{
+          //   maskImage:
+          //     "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+          //   maskComposite: "intersect",
+          //   WebkitMaskImage:
+          //     "linear-gradient(to right, transparent, black 15%, black 85%, transparent), linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+          //   WebkitMaskComposite: "destination-in",
+          // }}
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-gold/85 via-[#ffe599]/10 to-gold/35" />
+        <div className="absolute inset-0 bg-linear-to-r from-gray/85 via-[#ffe599]/10 to-gold/30" />
+      </motion.div>
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(121,200,155,0.2),transparent_38%)]" />
+
+      <motion.div
+        style={shouldReduceMotion ? undefined : { opacity }}
+        className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-24 md:px-12 md:pb-20 md:pt-28 lg:pb-24 lg:pt-28"
+      >
+        <div className="max-w-3xl space-y-5 text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: MOTION_EASE }}
+            className="space-y-6"
+          >
+            <SkipToOwningBitHeading
+              className="text-5xl tracking-[-0.02em] text-white md:text-6xl lg:text-7xl"
+              logoVariant={1}
+              textClassName="text-white"
+              lineTwo="owning bit."
+              priorityLogo
+            />
+            <p className="text-2xl tracking-tight text-white/95 md:text-3xl lg:text-3xl">
+              2% Deposit Home Loans.
+            </p>
+            <p className="text-lg text-white/70">Same process. Same security. 10x less deposit.</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: MOTION_EASE }}
+            className="flex flex-col gap-4 pt-2 sm:flex-row"
+          >
+            <motion.a
+              href="#apply"
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02, boxShadow: "0 20px 40px rgba(121, 200, 155, 0.4)" }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              className={cn(
+                buttonVariants({ variant: "mint", size: "xl" }),
+                "group shadow-2xl focus-visible:ring-mint focus-visible:ring-offset-brand",
+              )}
+            >
+              Apply now
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </motion.a>
+            <motion.a
+              href="#calculator"
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02, backgroundColor: "rgba(255,255,255,0.2)" }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              className={cn(
+                buttonVariants({ variant: "glass", size: "xl" }),
+                "border-2 shadow-xl focus-visible:ring-mint focus-visible:ring-offset-brand",
+              )}
+            >
+              Calculate your borrowing
+            </motion.a>
+          </motion.div>
+
+          {/* <TrustMicrocopy inverse className="max-w-xl" /> */}
+
+          {/* <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8, ease: MOTION_EASE }}
+            className="flex flex-wrap gap-4 pt-4"
+          >
+            <Card className="rounded-2xl border-white/20 bg-white/10 px-6 py-4 text-white backdrop-blur-xl">
+              <p className="mb-1 text-sm text-white/70">From just</p>
+              <p className="text-3xl font-bold text-white">$20k</p>
+            </Card>
+            <Card className="rounded-2xl border-white/20 bg-white/10 px-6 py-4 text-white backdrop-blur-xl">
+              <p className="mb-1 text-sm text-white/70">Can buy</p>
+              <p className="text-3xl font-bold text-white">$1M+</p>
+            </Card>
+          </motion.div> */}
+
+          {/* <div className="grid max-w-3xl gap-3 pt-2 sm:grid-cols-3">
+            {HERO_SOCIAL_PROOF.map((proof) => (
+              <Card key={proof.label} className="rounded-2xl border-white/20 bg-white/10 p-4 text-white backdrop-blur-xl">
+                <div className="mb-1 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-white/70">
+                  <Star className="h-3.5 w-3.5 text-mint" />
+                  {proof.label}
+                </div>
+                <p className="text-2xl font-semibold tracking-tight">{proof.value}</p>
+                <p className="text-sm text-white/75">{proof.detail}</p>
+              </Card>
+            ))}
+          </div> */}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+
 export default function Option3Page() {
   const [mode, setMode] = useState<RateMode>("purchase");
   const [deposit, setDeposit] = useState(20000);
@@ -195,7 +341,7 @@ export default function Option3Page() {
   return (
     <main id="top" className="bg-canvas text-ink">
       <header className="sticky top-0 z-40 border-b border-brand/10 bg-canvas/80 backdrop-blur-xl">
-        <div className="section-shell flex h-[4.5rem] items-center justify-between">
+        <div className="section-shell flex h-18 items-center justify-between">
           <a href="#top" aria-label="Skip home" className="inline-flex items-center">
             <SkipLogo variant={1} className="h-8" />
           </a>
@@ -225,78 +371,7 @@ export default function Option3Page() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-brand/10 bg-[linear-gradient(150deg,rgba(31,86,58,0.06),transparent_42%),linear-gradient(330deg,rgba(121,200,155,0.16),transparent_38%),linear-gradient(180deg,#ffffff_0%,#f3f8f3_100%)]">
-        <div className="section-shell grid min-h-[calc(100vh-72px)] items-center gap-14 py-16 lg:grid-cols-[1.02fr_0.98fr] lg:py-20">
-          <div className="space-y-8">
-            <Badge variant="mint" className="w-fit px-4 py-1.5 text-[0.72rem] tracking-[0.12em]">
-              AUSTRALIAN LENDER
-            </Badge>
-            <div className="space-y-5">
-              <h1 className="font-display max-w-[16ch] text-5xl leading-[0.94] tracking-[-0.03em] text-brand md:text-7xl">
-                Own sooner with a 2% deposit.
-              </h1>
-              <p className="max-w-[58ch] text-lg leading-relaxed text-ink/75 md:text-xl">
-                Same loan process. Same security controls. A dramatically lower upfront deposit so your timeline can
-                match your income, not a decade of saving.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href="#apply"
-                className={cn(
-                  buttonVariants({ variant: "brand", size: "xl" }),
-                  "h-[3.25rem] rounded-full px-8 shadow-[0_18px_40px_-24px_rgba(31,86,58,0.65)]",
-                )}
-              >
-                Apply now
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#calculator"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "xl" }),
-                  "h-[3.25rem] rounded-full border-brand/30 bg-white/75 px-8 text-brand hover:bg-mint/20",
-                )}
-              >
-                See borrowing power
-              </a>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <MetricPill label="From deposit" value="2%" />
-              <MetricPill label="Typical response" value="48 hrs" />
-              <MetricPill label="Families settled" value="3,000+" />
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute -right-8 -top-10 h-56 w-56 rounded-full bg-mint/25 blur-3xl" />
-            <div className="absolute -bottom-10 -left-10 h-64 w-64 rounded-full bg-brand/15 blur-3xl" />
-            <Card className="relative overflow-hidden rounded-[2.25rem] border-brand/10 bg-white/80 shadow-[0_36px_90px_-54px_rgba(31,86,58,0.68)]">
-              <CardContent className="p-3">
-                <div className="relative aspect-[5/6] overflow-hidden rounded-[1.85rem] border border-white/70">
-                  <Image
-                    src="/hero-kangaroo.png"
-                    alt="Kangaroo celebrating in front of a sold sign"
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 44vw, 90vw"
-                    className="object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand/35 via-brand/5 to-transparent" />
-                </div>
-              </CardContent>
-            </Card>
-            <div className="absolute bottom-5 left-5 rounded-2xl border border-white/50 bg-white/85 px-4 py-3 shadow-xl backdrop-blur">
-              <p className="text-[0.66rem] font-semibold tracking-[0.14em] text-ink/55">DEPOSIT ON $1M</p>
-              <p className="font-display text-3xl leading-none tracking-[-0.03em] text-brand">$20k</p>
-            </div>
-            <div className="absolute right-5 top-5 rounded-2xl border border-brand/20 bg-brand px-4 py-3 text-white shadow-xl">
-              <p className="text-[0.66rem] font-semibold tracking-[0.14em] text-white/70">SKIP RATE FROM</p>
-              <p className="font-display text-3xl leading-none tracking-[-0.03em]">6.30%</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       <section className="section-shell py-12 md:py-14">
         <div className="grid gap-4 md:grid-cols-3">
@@ -341,11 +416,11 @@ export default function Option3Page() {
           <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="space-y-3">
               <p className="text-xs font-semibold tracking-[0.2em] text-brand/65">PRICING</p>
-              <h2 className="font-display text-4xl tracking-[-0.02em] text-brand md:text-6xl">Rates built for speed</h2>
-              <p className="max-w-[58ch] text-base leading-relaxed text-ink/65 md:text-lg">
+              <h2 className="font-display text-4xl tracking-[-0.02em] text-brand md:text-6xl">Marketing leads rates</h2>
+              {/* <p className="max-w-[58ch] text-base leading-relaxed text-ink/65 md:text-lg">
                 Choose your scenario to preview indicative rates. Final pricing and eligibility depend on your full
                 application profile.
-              </p>
+              </p> */}
             </div>
             <div className="flex w-full max-w-[20rem] rounded-full border border-brand/20 bg-canvas p-1">
               <button
@@ -485,7 +560,7 @@ export default function Option3Page() {
             {SKIP_TO_CARDS.map((card) => (
               <Card key={card.title} className="group overflow-hidden rounded-[1.8rem] border-brand/15 bg-white">
                 <CardContent className="p-5">
-                  <div className="relative mb-5 aspect-[4/5] overflow-hidden rounded-2xl">
+                  <div className="relative mb-5 aspect-4/5 overflow-hidden rounded-2xl">
                     <Image
                       src={card.imageSrc}
                       alt={card.imageAlt}
@@ -493,7 +568,7 @@ export default function Option3Page() {
                       sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand/18 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-brand/18 via-transparent to-transparent" />
                   </div>
                   <h3 className="font-display text-2xl tracking-[-0.02em] text-brand">{card.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink/65">{card.description}</p>
@@ -627,7 +702,7 @@ export default function Option3Page() {
           <Card className="rounded-[2rem] border-brand/15 bg-[linear-gradient(140deg,#1f563a,#2a7050)] text-white">
             <CardContent className="p-8 md:p-10">
               <blockquote className="max-w-[34ch] font-display text-4xl leading-[1.02] tracking-[-0.025em] md:text-6xl">
-                "We thought we were years away from owning. Skip got us in far sooner."
+                &ldquo;We thought we were years away from owning. Skip got us in far sooner.&rdquo;
               </blockquote>
               <p className="mt-5 text-sm text-white/75 md:text-base">Alicia & Tom, Inner West NSW</p>
             </CardContent>
@@ -781,15 +856,6 @@ export default function Option3Page() {
         }
       `}</style>
     </main>
-  );
-}
-
-function MetricPill({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-brand/15 bg-white/75 px-4 py-3">
-      <p className="text-[0.66rem] font-semibold tracking-[0.14em] text-ink/55">{label}</p>
-      <p className="mt-1 text-2xl font-semibold tracking-tight text-brand">{value}</p>
-    </div>
   );
 }
 
