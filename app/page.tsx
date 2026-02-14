@@ -3,10 +3,15 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex min-h-screen items-center justify-center flex-col gap-4">
-      <div>
-        Preferred
-      </div>
-        <Link
+      <div>Preferred</div>
+      <Link
+        href="/option10"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 10 Page
+      </Link>
+
+      <Link
         href="/option8"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
@@ -19,9 +24,7 @@ export default function Home() {
         Go to Option 9 Page
       </Link>
 
-      <div>
-        other options
-      </div>
+      <div>other options</div>
 
       <Link
         href="/option1"
@@ -65,8 +68,6 @@ export default function Home() {
       >
         Go to Option 7 Page
       </Link>
-      
     </main>
-
   );
 }

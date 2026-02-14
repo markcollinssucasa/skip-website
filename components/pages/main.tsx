@@ -51,7 +51,7 @@ interface SharedOptionHeroImage {
   objectPosition?: string;
 }
 
-export interface SharedOption8And9PageProps {
+export interface MainPageProps {
   heroImage: SharedOptionHeroImage;
 }
 
@@ -437,7 +437,9 @@ function MobileMenu({
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      setExpandedGroup(null);
+      setTimeout(() => {
+        setExpandedGroup(null);
+      }, 300);
     }
     return () => {
       document.body.style.overflow = "";
@@ -1870,8 +1872,33 @@ function RooHopOverlay({ phase }: { phase: "idle" | "intro" | "hop" | "outro" })
 
 const APPLY_URL = "https://apply.skiploans.com.au/";
 
-export function Option8And9SharedPage({ heroImage }: SharedOption8And9PageProps) {
+export function MainPage({ heroImage }: MainPageProps) {
   const { trigger: triggerRoo, phase: rooPhase } = useRooHopAnimation();
+
+  /* Preload the application page so navigation feels instant */
+  useEffect(() => {
+    const preconnect = document.createElement("link");
+    preconnect.rel = "preconnect";
+    preconnect.href = "https://apply.skiploans.com.au";
+    document.head.appendChild(preconnect);
+
+    const dnsPrefetch = document.createElement("link");
+    dnsPrefetch.rel = "dns-prefetch";
+    dnsPrefetch.href = "https://apply.skiploans.com.au";
+    document.head.appendChild(dnsPrefetch);
+
+    const prefetch = document.createElement("link");
+    prefetch.rel = "prefetch";
+    prefetch.href = APPLY_URL;
+    prefetch.as = "document";
+    document.head.appendChild(prefetch);
+
+    return () => {
+      document.head.removeChild(preconnect);
+      document.head.removeChild(dnsPrefetch);
+      document.head.removeChild(prefetch);
+    };
+  }, []);
 
   const handleCtaClick = useCallback(
     (e: React.MouseEvent) => {

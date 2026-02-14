@@ -1,8 +1,8 @@
-import { Option8And9SharedPage } from "@/components/pages/option8-option9-shared-page";
+import { MainPage } from "@/components/pages/main";
 
 export default function Option9Page() {
   return (
-    <Option8And9SharedPage
+    <MainPage
       heroImage={{
         src: "/skip-yellow-head-and-friend.png",
         alt: "Skip mascot and friend lounging on a couch",
