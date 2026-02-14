@@ -1,0 +1,24 @@
+app/option3/page.tsx
+  ffcb828b1a210178 1-820
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "aa9b29251182ad86cbc524ecaf08a46599cd02a9",
+  "prompts": {
+    "ffcb828b1a210178": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c5ad9-17de-76c3-ab3e-543fd135e513",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 820,
+      "total_deletions": 0,
+      "accepted_lines": 820,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2379e7cae30767b1e0771c14e50cda9144e8b31ad09f29d3731b993d92cef9ea"
+    }
+  }
+}
