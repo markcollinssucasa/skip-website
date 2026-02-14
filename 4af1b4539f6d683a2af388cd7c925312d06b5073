@@ -1,0 +1,24 @@
+app/option8/page.tsx
+  3ee59100611cf9de 3-4,21,112-118,124,127-139,333,402,411,623-636,638-730,952,1223,1258-1259,1386,1404,1407,1421-1476,1478-1479,1484,1494,1497-1498
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "4af1b4539f6d683a2af388cd7c925312d06b5073",
+  "prompts": {
+    "3ee59100611cf9de": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4e5f4818-806a-49e8-a64e-6ab10606abc9",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 223,
+      "total_deletions": 27,
+      "accepted_lines": 204,
+      "overriden_lines": 3,
+      "messages_url": "https://usegitai.com/cas/ccb932e3fdded08234272e4d1b37bc20c3f491a4031456f153c5c79aa2951b93"
+    }
+  }
+}
