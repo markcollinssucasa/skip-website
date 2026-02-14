@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -17,6 +18,7 @@ import {
   Star,
   TrendingDown,
   Users,
+  X,
 } from "lucide-react";
 
 import { SkipLogo } from "@/components/brand/skip-logo";
@@ -107,6 +109,34 @@ const SKIP_TO_CARDS = [
   },
 ];
 
+const FIRST_HOME_BUYER_ROWS = [
+  {
+    label: "Deposit",
+    firstHomeBuyer: "5%",
+    skip: "2%",
+  },
+  {
+    label: "Property price",
+    firstHomeBuyer: "Caps limit your choice",
+    skip: "No caps",
+  },
+  {
+    label: "Flexibility",
+    firstHomeBuyer: "You may owe money if you sell",
+    skip: "You can do what you want",
+  },
+  {
+    label: "Available to",
+    firstHomeBuyer: "Only first home buyers",
+    skip: "Everyone",
+  },
+  {
+    label: "Deposit rules",
+    firstHomeBuyer: "Must use all your money",
+    skip: "No restrictions",
+  },
+];
+
 const PROCESS_STEPS = [
   {
     number: "01",
@@ -144,7 +174,7 @@ const TRUST_PILLARS = [
   {
     icon: Building2,
     title: "Human support",
-    description: "Local team from pre-approval through settlement.",
+    description: "Australian based team from pre-approval through settlement.",
   },
 ];
 
@@ -265,7 +295,6 @@ function StickyHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-[4.5rem] md:px-8">
         <SkipLogoPressButton
           className="h-8"
-          disableSkipAnimation
           aria-label="Skip home"
         />
         <nav className="hidden items-center gap-7 text-[0.82rem] font-medium md:flex">
@@ -301,7 +330,7 @@ function StickyHeader() {
 /*  Hero                                                               */
 /* ------------------------------------------------------------------ */
 
-function Hero() {
+function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
   const shouldReduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -370,6 +399,7 @@ function Hero() {
             >
               <motion.a
                 href="#apply"
+                onClick={onCtaClick}
                 whileHover={
                   shouldReduceMotion
                     ? undefined
@@ -378,7 +408,7 @@ function Hero() {
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                 className={cn(
                   buttonVariants({ variant: "mint", size: "xl" }),
-                  "group shadow-2xl",
+                  "group text-brand-dark font-semibold shadow-2xl",
                 )}
               >
                 Start your application
@@ -584,6 +614,115 @@ function ValuePropSection() {
             </Card>
           </AnimatedSection>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  First Home Buyer Constraint                                        */
+/* ------------------------------------------------------------------ */
+
+function FirstHomeBuyerConstraintSection() {
+  return (
+    <section className="section-y relative overflow-hidden border-t border-brand/8 bg-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(121,200,155,0.14),transparent_42%)]" />
+      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+        <AnimatedSection>
+          <div className="mb-10 space-y-3 text-center md:mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/55">
+              Compare
+            </p>
+            <h2 className="mx-auto max-w-[22ch] font-display text-4xl tracking-[-0.025em] text-brand md:text-5xl lg:text-6xl">
+              Better than the First Home Buyer Scheme
+            </h2>
+            <p className="mx-auto max-w-[50ch] text-base leading-relaxed text-ink/60">
+              Government schemes come with strings attached. Skip gives you
+              freedom from day one.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <AnimatedSection>
+            <Card className="h-full rounded-[1.75rem] border-brand/8 bg-canvas/60">
+              <CardContent className="p-0">
+                <div className="flex items-center justify-between border-b border-brand/8 px-6 py-5">
+                  <h3 className="font-display text-xl tracking-[-0.02em] text-ink md:text-2xl">
+                    First Home Buyer Scheme
+                  </h3>
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-red-500/10 text-red-500/70">
+                    <X className="h-5 w-5" />
+                  </span>
+                </div>
+                <dl className="divide-y divide-brand/6">
+                  {FIRST_HOME_BUYER_ROWS.map((row) => (
+                    <div key={`fhb-${row.label}`} className="flex items-start gap-3 px-6 py-4">
+                      <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                        <X className="h-3 w-3 text-red-500/70" />
+                      </span>
+                      <div className="space-y-1">
+                        <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/45">
+                          {row.label}
+                        </dt>
+                        <dd className="text-[0.95rem] font-medium text-ink/70 md:text-base">
+                          {row.firstHomeBuyer}
+                        </dd>
+                      </div>
+                    </div>
+                  ))}
+                </dl>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.12}>
+            <Card className="h-full rounded-[1.75rem] border-mint/30 bg-gradient-to-b from-mint/15 to-mint/8 shadow-refined">
+              <CardContent className="p-0">
+                <div className="flex items-center justify-between border-b border-brand/12 px-6 py-5">
+                  <h3 className="font-display text-xl tracking-[-0.02em] text-brand md:text-2xl">
+                    Skip
+                  </h3>
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
+                    <Check className="h-5 w-5" />
+                  </span>
+                </div>
+                <dl className="divide-y divide-brand/8">
+                  {FIRST_HOME_BUYER_ROWS.map((row) => (
+                    <div key={`skip-${row.label}`} className="flex items-start gap-3 px-6 py-4">
+                      <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mint/30">
+                        <Check className="h-3 w-3 text-brand" />
+                      </span>
+                      <div className="space-y-1">
+                        <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-brand/55">
+                          {row.label}
+                        </dt>
+                        <dd className="text-[0.95rem] font-semibold text-brand md:text-base">
+                          {row.skip}
+                        </dd>
+                      </div>
+                    </div>
+                  ))}
+                </dl>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+        </div>
+
+        <AnimatedSection delay={0.2}>
+          <div className="mt-8 text-center">
+            <a
+              href="#apply"
+              className={cn(
+                buttonVariants({ variant: "brand", size: "lg" }),
+                "rounded-full px-8",
+              )}
+            >
+              Skip the restrictions
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </AnimatedSection>
       </div>
     </section>
   );
@@ -810,7 +949,7 @@ function CalculatorSection() {
                     href="#apply"
                     className={cn(
                       buttonVariants({ variant: "mint", size: "lg" }),
-                      "w-fit rounded-full px-7 text-brand",
+                      "w-fit rounded-full px-7 text-brand-dark font-semibold",
                     )}
                   >
                     Get pre-approved
@@ -1081,7 +1220,7 @@ function FAQSection() {
 /*  Final CTA                                                          */
 /* ------------------------------------------------------------------ */
 
-function FinalCTA() {
+function FinalCTA({ onCtaClick }: { onCtaClick?: () => void }) {
   return (
     <section id="apply" className="mx-auto max-w-7xl px-5 pb-14 md:px-8 md:pb-20">
       <AnimatedSection>
@@ -1116,7 +1255,8 @@ function FinalCTA() {
               <Button
                 variant="mint"
                 size="lg"
-                className="rounded-full px-8 text-brand shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]"
+                className="rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]"
+                onClick={onCtaClick}
               >
                 Start my application
                 <ArrowRight className="h-4 w-4" />
@@ -1243,7 +1383,7 @@ function FooterLinks({
 /*  Mobile sticky CTA                                                  */
 /* ------------------------------------------------------------------ */
 
-function MobileStickyCTA() {
+function MobileStickyCTA({ onCtaClick }: { onCtaClick?: () => void }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -1261,9 +1401,10 @@ function MobileStickyCTA() {
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/15 bg-brand/95 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] backdrop-blur-xl md:hidden">
       <a
         href="#apply"
+        onClick={onCtaClick}
         className={cn(
           buttonVariants({ variant: "mint", size: "lg" }),
-          "w-full rounded-full",
+          "w-full rounded-full text-brand-dark font-semibold",
         )}
       >
         Start your application
@@ -1277,24 +1418,84 @@ function MobileStickyCTA() {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/*  Roo hop animation (no deposit block) for CTA buttons               */
+/* ------------------------------------------------------------------ */
+
+function useRooHopAnimation() {
+  const [phase, setPhase] = useState<"idle" | "intro" | "hop" | "outro">("idle");
+  const running = useRef(false);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => () => timers.current.forEach((id) => clearTimeout(id)), []);
+
+  const trigger = useCallback(() => {
+    if (running.current) return;
+    running.current = true;
+    setPhase("intro");
+    timers.current = [
+      window.setTimeout(() => setPhase("hop"), 140),
+      window.setTimeout(() => setPhase("outro"), 620),
+      window.setTimeout(() => {
+        setPhase("idle");
+        running.current = false;
+      }, 860),
+    ];
+  }, []);
+
+  return { trigger, phase };
+}
+
+function RooHopOverlay({ phase }: { phase: "idle" | "intro" | "hop" | "outro" }) {
+  const visible = phase !== "idle";
+  const showRoo = phase === "hop" || phase === "outro";
+  const overlayOn = phase === "intro" || phase === "hop";
+
+  if (!visible || typeof document === "undefined") return null;
+
+  return createPortal(
+    <div className={cn("skip-overlay", overlayOn && "skip-overlay-on")} aria-hidden="true">
+      <div className="skip-stage">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={cn("skip-roo", showRoo && "skip-roo-hop")}
+          src="/brand/skip-roo.png"
+          alt=""
+          role="presentation"
+          draggable={false}
+        />
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 export default function Option8Page() {
+  const { trigger: triggerRoo, phase: rooPhase } = useRooHopAnimation();
+
   return (
     <MotionConfig reducedMotion="user">
       <main className="bg-canvas text-ink">
         <StickyHeader />
-        <Hero />
+        <Hero onCtaClick={triggerRoo} />
         <TrustStrip />
         <ValuePropSection />
         <RatesSection />
         <CalculatorSection />
+        <FirstHomeBuyerConstraintSection />
         <HowItWorksSection />
         <JourneySection />
         <ReviewsSection />
         <FAQSection />
-        <FinalCTA />
+        <FinalCTA onCtaClick={triggerRoo} />
         <MarqueeStrip />
         <Footer />
-        <MobileStickyCTA />
+        <MobileStickyCTA onCtaClick={triggerRoo} />
+        <RooHopOverlay phase={rooPhase} />
 
         <style jsx global>{`
           .marquee-track {
