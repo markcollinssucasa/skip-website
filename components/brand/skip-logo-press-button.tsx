@@ -31,12 +31,15 @@ function SkipWordmark({ className }: SkipWordmarkProps) {
 type SkipLogoPressButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   wordmarkClassName?: string;
   disableSkipAnimation?: boolean;
+  /** Total animation duration in ms (default 900). */
+  animationDuration?: number;
 };
 
 export function SkipLogoPressButton({
   className,
   wordmarkClassName,
   disableSkipAnimation = false,
+  animationDuration = 900,
   type = "button",
   disabled,
   onClick,
@@ -47,6 +50,7 @@ export function SkipLogoPressButton({
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [phase, setPhase] = useState<"idle" | "intro" | "hop" | "shatter" | "outro">("idle");
   const timers = useRef<number[]>([]);
+  const animScale = animationDuration / 900;
 
   useEffect(() => {
     return () => {
@@ -67,16 +71,16 @@ export function SkipLogoPressButton({
     setPhase("intro");
 
     timers.current.push(
-      window.setTimeout(() => setPhase("hop"), 140),
-      window.setTimeout(() => setPhase("shatter"), 480),
+      window.setTimeout(() => setPhase("hop"), 140 * animScale),
+      window.setTimeout(() => setPhase("shatter"), 480 * animScale),
       window.setTimeout(() => {
         setPhase("outro");
-      }, 720),
+      }, 720 * animScale),
       window.setTimeout(() => {
         setIsOverlayVisible(false);
         setPhase("idle");
         setIsRunning(false);
-      }, 900),
+      }, animationDuration),
     );
   };
 
@@ -113,10 +117,10 @@ export function SkipLogoPressButton({
 
       {typeof document !== "undefined" && isOverlayVisible
         ? createPortal(
-            <div className={cn("skip-overlay", overlayIsOn && "skip-overlay-on")} aria-hidden="true">
+            <div className={cn("skip-overlay", overlayIsOn && "skip-overlay-on")} aria-hidden="true" style={{ "--skip-anim-scale": animScale } as React.CSSProperties}>
               <div className="skip-stage">
                 <div className={cn("skip-block", shouldShowShatter && "skip-block-shatter")}>
-                  <span className="skip-block-label">20% Deposit</span>
+                  <span className="skip-block-label">Years saving for a deposit</span>
                   <span className={cn("skip-crack skip-crack-1", shouldShowShatter && "skip-crack-on")} />
                   <span className={cn("skip-crack skip-crack-2", shouldShowShatter && "skip-crack-on")} />
                   <span className={cn("skip-crack skip-crack-3", shouldShowShatter && "skip-crack-on")} />
@@ -146,7 +150,7 @@ export function SkipLogoPressButton({
           background: rgba(25, 30, 28, 0.02);
           opacity: 0;
           pointer-events: none;
-          transition: opacity 160ms ease, background-color 160ms ease;
+          transition: opacity calc(160ms * var(--skip-anim-scale, 1)) ease, background-color calc(160ms * var(--skip-anim-scale, 1)) ease;
         }
 
         .skip-overlay-on {
@@ -175,9 +179,9 @@ export function SkipLogoPressButton({
           opacity: 1;
           transform: translateY(0) scale(1);
           transition:
-            transform 230ms cubic-bezier(0.22, 1, 0.36, 1),
-            opacity 230ms cubic-bezier(0.22, 1, 0.36, 1),
-            filter 230ms cubic-bezier(0.22, 1, 0.36, 1);
+            transform calc(230ms * var(--skip-anim-scale, 1)) cubic-bezier(0.22, 1, 0.36, 1),
+            opacity calc(230ms * var(--skip-anim-scale, 1)) cubic-bezier(0.22, 1, 0.36, 1),
+            filter calc(230ms * var(--skip-anim-scale, 1)) cubic-bezier(0.22, 1, 0.36, 1);
           overflow: hidden;
         }
 
@@ -190,7 +194,7 @@ export function SkipLogoPressButton({
         .skip-block-label {
           display: inline-block;
           color: rgba(255, 255, 255, 0.96);
-          font: 700 clamp(22px, 3.3vw, 34px) / 1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+          font: 700 clamp(16px, 2.4vw, 24px) / 1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
           letter-spacing: -0.02em;
           white-space: nowrap;
         }
@@ -202,7 +206,7 @@ export function SkipLogoPressButton({
           width: 2px;
           opacity: 0;
           background: rgba(255, 255, 255, 0);
-          transition: opacity 120ms ease, background-color 120ms ease;
+          transition: opacity calc(120ms * var(--skip-anim-scale, 1)) ease, background-color calc(120ms * var(--skip-anim-scale, 1)) ease;
         }
 
         .skip-crack-1 {
@@ -239,7 +243,7 @@ export function SkipLogoPressButton({
 
         .skip-roo-hop {
           opacity: 1;
-          animation: skip-hop-arc 680ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          animation: skip-hop-arc calc(680ms * var(--skip-anim-scale, 1)) cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         @keyframes skip-hop-arc {

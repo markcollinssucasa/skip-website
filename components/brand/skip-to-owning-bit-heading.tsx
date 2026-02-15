@@ -38,6 +38,7 @@ export function SkipToOwningBitHeading({
         <SkipLogoPressButton
           className={cn("h-[1.7em]", logoClassName)}
           aria-label="Skip"
+          animationDuration={1500}
         />
       )}
       <span className={cn("flex shrink-0 flex-col text-left text-[0.66em] leading-[0.84]", textClassName)}>
