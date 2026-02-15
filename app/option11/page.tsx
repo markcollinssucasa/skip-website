@@ -209,29 +209,53 @@ function Hero() {
   const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 600], [1, 1.1]);
   const textY = useTransform(scrollY, [0, 500], [0, 80]);
+  const mobileHeroScale = 0.1;
+  const mobileHeroOverscanPct = ((1 / mobileHeroScale - 1) / 2) * 100 + 2;
 
   return (
-    <section className="relative flex min-h-[130svh] items-center overflow-hidden bg-ink">
+    <section className="relative flex min-h-[130svh] items-center overflow-hidden bg-brand">
       {/* Background image with parallax */}
       <motion.div
         style={shouldReduceMotion ? undefined : { scale: heroScale }}
-        className="absolute inset-0 md:inset-x-[25%] md:inset-y-[10%]"
+        className="absolute inset-0"
       >
-        <Image
-          src="/hero-keys-kangaroo.png"
-          alt="Skip mascot holding house keys"
-          fill
-          priority
-          className="object-cover object-[center_20%] md:object-top md:rounded-3xl md:[mask-image:radial-gradient(ellipse_70%_70%_at_center,black_30%,transparent_85%)]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/30 to-ink/60" />
+        {/* Portrait image for mobile — overscan tracks scale so it always stays edge-to-edge */}
+        <div className="absolute md:hidden" style={{ inset: `-${mobileHeroOverscanPct}%` }}>
+          <Image
+            src="/hero-keys-kangaroo.png"
+            alt="Skip mascot holding house keys"
+            fill
+            priority
+            sizes="100vw"
+            quality={75}
+            className="object-cover"
+            style={{ objectPosition: "50% 18%", transform: `scale(${mobileHeroScale})` }}
+          />
+        </div>
+        {/* Wide image for desktop — hard-shift left via oversized frame */}
+        <div className="absolute inset-0 hidden overflow-hidden md:block">
+          <div className="absolute inset-y-0 -left-[24%] w-[128%]">
+            <Image
+              src="/hero-keys-kangaroo-wide.png"
+              alt="Skip mascot holding house keys"
+              fill
+              priority
+              sizes="100vw"
+              quality={75}
+              className="object-cover"
+              style={{ objectPosition: "50% 78%" }}
+            />
+          </div>
+        </div>
+        {/* Green cover overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand/0 via-brand/20 to-brand/80 md:from-brand/20 md:via-brand/20 md:to-brand/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand/10 via-brand/5 to-brand/10 md:from-brand/60 md:via-brand/20 md:to-brand/40" />
       </motion.div>
 
       {/* Animated gradient orbs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-32 top-1/4 h-[500px] w-[500px] animate-[orb-drift_18s_ease-in-out_infinite] rounded-full bg-brand/20 blur-[120px]" />
-        <div className="absolute -right-32 bottom-1/4 h-[400px] w-[400px] animate-[orb-drift_22s_ease-in-out_infinite_reverse] rounded-full bg-mint/15 blur-[100px]" />
+      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+        <div className="absolute -left-16 top-1/4 h-[600px] w-[600px] animate-[orb-drift_18s_ease-in-out_infinite] rounded-full bg-brand/40 blur-[100px]" />
+        <div className="absolute -right-16 bottom-1/4 h-[500px] w-[500px] animate-[orb-drift_22s_ease-in-out_infinite_reverse] rounded-full bg-mint/30 blur-[80px]" />
       </div>
 
       {/* Content */}
@@ -240,13 +264,13 @@ function Hero() {
         className="relative z-10 w-full"
       >
         <div className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-12 md:pb-32 md:pt-40">
-          <div className="max-w-4xl space-y-8">
+          <div className="max-w-4xl space-y-8 md:ml-auto md:max-w-2xl md:text-right">
             {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: MOTION_EASE }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 backdrop-blur-xl"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 backdrop-blur-xl md:ml-auto"
             >
               <span className="h-2 w-2 rounded-full bg-mint animate-pulse" />
               <span className="text-[13px] font-medium tracking-wide text-white/80">
@@ -259,7 +283,7 @@ function Hero() {
               <motion.h1
                 className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] tracking-[-0.03em] text-white"
               >
-                {["Skip", "to"].map((word, i) => (
+                {["Skip", "to", "the"].map((word, i) => (
                   <motion.span
                     key={word}
                     initial={{ opacity: 0, y: 50 }}
@@ -271,7 +295,7 @@ function Hero() {
                   </motion.span>
                 ))}
                 <br />
-                {["the", "owning", "bit"].map((word, i) => (
+                {["owning", "bit"].map((word, i) => (
                   <motion.span
                     key={word}
                     initial={{ opacity: 0, y: 50 }}
@@ -289,7 +313,7 @@ function Hero() {
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 + i * 0.1, ease: MOTION_EASE }}
-                    className="mr-[0.25em] inline-block text-white/50"
+                    className="mr-[0.25em] inline-block text-white/70"
                   >
                     {word}
                   </motion.span>
@@ -310,7 +334,7 @@ function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1, ease: MOTION_EASE }}
-              className="max-w-xl text-lg leading-relaxed text-white/60 md:text-xl"
+              className="max-w-xl text-lg leading-relaxed text-white/60 md:ml-auto md:text-xl"
             >
               Same bank-grade process. Same legal protections. A dramatically smaller deposit so you can buy on your timeline, not the bank&rsquo;s.
             </motion.p>
@@ -320,7 +344,7 @@ function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.15, ease: MOTION_EASE }}
-              className="flex flex-wrap items-center gap-4 pt-2"
+              className="flex flex-wrap items-center gap-4 pt-2 md:justify-end"
               id="apply"
             >
               <a
@@ -349,7 +373,7 @@ function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.4 }}
-              className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 text-sm text-white/40"
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 text-sm text-white/40 md:justify-end"
             >
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="size-3.5 text-mint/60" />
