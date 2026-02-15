@@ -1,0 +1,24 @@
+components/pages/main.tsx
+  4ecd1bcc64e904c9 28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "891dd22fbdd285e214d115411e43028856cca0dc",
+  "prompts": {
+    "4ecd1bcc64e904c9": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "7195aa34-9282-403e-b834-83b1a151120c",
+        "model": "composer-1.5"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 22,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/abfe72810df4fd07a637b706b4047f2caef941c7dc3b61dba9c3b5f9b22339eb"
+    }
+  }
+}
