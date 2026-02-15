@@ -45,6 +45,7 @@ import {
 /* ------------------------------------------------------------------ */
 
 const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+const APPLY_URL = "https://apply.skiploans.com.au/";
 
 interface SharedOptionHeroImage {
   src: string;
@@ -72,7 +73,7 @@ interface RateCard {
 
 const RATE_CARDS: RateCard[] = [
   {
-    title: "Owner Occupied",
+    title: "Owner Occupied Property",
     description: "For your home",
     rates: {
       purchase: { effective: "6.30", comparison: "6.63", subtitle: "New purchase" },
@@ -80,7 +81,7 @@ const RATE_CARDS: RateCard[] = [
     },
   },
   {
-    title: "Investment",
+    title: "Investment Property",
     description: "For portfolio growth",
     rates: {
       purchase: { effective: "6.65", comparison: "6.95", subtitle: "New purchase" },
@@ -349,6 +350,68 @@ function AnimatedSection({
 }
 
 /* ------------------------------------------------------------------ */
+/*  Apply CTA button                                                   */
+/* ------------------------------------------------------------------ */
+
+const APPLY_ARROW_SIZES: Record<string, string> = {
+  sm: "h-3.5 w-3.5",
+  lg: "h-4 w-4",
+  xl: "h-5 w-5",
+};
+
+function ApplyCta({
+  children,
+  variant = "brand",
+  size = "lg",
+  className,
+  onClick,
+}: {
+  children: React.ReactNode;
+  variant?: "mint" | "brand";
+  size?: "sm" | "lg" | "xl";
+  className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+
+  const iconSize = APPLY_ARROW_SIZES[size] ?? "h-4 w-4";
+
+  return (
+    <m.a
+      href={APPLY_URL}
+      onClick={onClick}
+      whileHover={
+        shouldReduceMotion
+          ? undefined
+          : { scale: 1.03 }
+      }
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+      className={cn(
+        buttonVariants({ variant, size }),
+        "group",
+        className,
+      )}
+    >
+      {children}
+      <span className="relative inline-flex items-center justify-center">
+        <ChevronRight
+          className={cn(
+            iconSize,
+            "transition-all duration-200 group-hover:opacity-0 group-hover:translate-x-1",
+          )}
+        />
+        <ArrowRight
+          className={cn(
+            iconSize,
+            "absolute inset-0 transition-all duration-200 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0",
+          )}
+        />
+      </span>
+    </m.a>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Header                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -591,20 +654,17 @@ function MobileMenu({
             <User className="h-4 w-4" />
             Log in
           </a>
-          <a
-            href="https://apply.skiploans.com.au/"
+          <ApplyCta
+            variant="brand"
+            size="lg"
+            className="w-full rounded-full"
             onClick={(e) => {
               onClose();
               onCtaClick?.(e);
             }}
-            className={cn(
-              buttonVariants({ variant: "brand", size: "lg" }),
-              "w-full rounded-full",
-            )}
           >
             Get started
-            <ArrowRight className="h-4 w-4" />
-          </a>
+          </ApplyCta>
         </div>
       </div>
     </>,
@@ -685,17 +745,14 @@ function StickyHeader({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => vo
               <User className="h-3.5 w-3.5" />
               Log in
             </a>
-            <a
-              href="https://apply.skiploans.com.au/"
+            <ApplyCta
+              variant={scrolled ? "brand" : "mint"}
+              size="sm"
+              className="rounded-full px-5 text-[0.82rem]"
               onClick={onCtaClick}
-              className={cn(
-                buttonVariants({ variant: scrolled ? "brand" : "mint", size: "sm" }),
-                "rounded-full px-5 text-[0.82rem]",
-              )}
             >
               Get started
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </a>
+            </ApplyCta>
           </div>
 
           {/* Mobile: login + hamburger */}
@@ -818,23 +875,14 @@ function Hero({
               transition={{ duration: 0.7, delay: 0.55, ease: MOTION_EASE }}
               className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center"
             >
-              <m.a
-                href="https://apply.skiploans.com.au/"
+              <ApplyCta
+                variant="mint"
+                size="xl"
+                className="text-brand-dark font-semibold shadow-2xl"
                 onClick={onCtaClick}
-                whileHover={
-                  shouldReduceMotion
-                    ? undefined
-                    : { scale: 1.03, boxShadow: "0 20px 50px rgba(121,200,155,0.45)" }
-                }
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                className={cn(
-                  buttonVariants({ variant: "mint", size: "xl" }),
-                  "group text-brand-dark font-semibold shadow-2xl",
-                )}
               >
                 Start your application
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </m.a>
+              </ApplyCta>
               <m.a
                 href="#calculator"
                 whileHover={
@@ -1129,17 +1177,14 @@ function FirstHomeBuyerConstraintSection({ onCtaClick }: { onCtaClick?: (e: Reac
 
         <AnimatedSection delay={0.2}>
           <div className="mt-8 text-center">
-            <a
-              href="https://apply.skiploans.com.au/"
+            <ApplyCta
+              variant="brand"
+              size="lg"
+              className="rounded-full px-8"
               onClick={onCtaClick}
-              className={cn(
-                buttonVariants({ variant: "brand", size: "lg" }),
-                "rounded-full px-8",
-              )}
             >
               Skip the restrictions
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            </ApplyCta>
           </div>
         </AnimatedSection>
       </div>
@@ -1246,17 +1291,14 @@ function RatesSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => vo
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3">
-                      <a
-                        href="https://apply.skiploans.com.au/"
+                      <ApplyCta
+                        variant="brand"
+                        size="lg"
+                        className="rounded-full px-6"
                         onClick={onCtaClick}
-                        className={cn(
-                          buttonVariants({ variant: "brand", size: "lg" }),
-                          "rounded-full px-6",
-                        )}
                       >
                         Apply now
-                        <ChevronRight className="h-4 w-4" />
-                      </a>
+                      </ApplyCta>
                       <a
                         href="#faq"
                         className="inline-flex items-center gap-1 text-sm font-semibold text-brand/70 hover:text-brand"
@@ -1365,17 +1407,14 @@ function CalculatorSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) 
                       application profile and eligibility.
                     </p>
                   </div>
-                  <a
-                    href="https://apply.skiploans.com.au/"
+                  <ApplyCta
+                    variant="mint"
+                    size="lg"
+                    className="w-fit rounded-full px-7 text-brand-dark font-semibold"
                     onClick={onCtaClick}
-                    className={cn(
-                      buttonVariants({ variant: "mint", size: "lg" }),
-                      "w-fit rounded-full px-7 text-brand-dark font-semibold",
-                    )}
                   >
                     Get pre-approved
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
+                  </ApplyCta>
                 </CardContent>
               </Card>
             </div>
@@ -1675,17 +1714,14 @@ function FinalCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <a
-                href="https://apply.skiploans.com.au/"
-                className={cn(
-                  buttonVariants({ variant: "mint", size: "lg" }),
-                  "rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]",
-                )}
+              <ApplyCta
+                variant="mint"
+                size="lg"
+                className="rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]"
                 onClick={onCtaClick}
               >
                 Start my application
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              </ApplyCta>
               <a
                 href="#calculator"
                 className={cn(
@@ -1815,17 +1851,14 @@ function MobileStickyCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) =>
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/15 bg-brand/95 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] backdrop-blur-xl md:hidden">
-      <a
-        href="https://apply.skiploans.com.au/"
+      <ApplyCta
+        variant="mint"
+        size="lg"
+        className="w-full rounded-full text-brand-dark font-semibold"
         onClick={onCtaClick}
-        className={cn(
-          buttonVariants({ variant: "mint", size: "lg" }),
-          "w-full rounded-full text-brand-dark font-semibold",
-        )}
       >
         Start your application
-        <ArrowRight className="h-4 w-4" />
-      </a>
+      </ApplyCta>
     </div>
   );
 }
@@ -1890,8 +1923,6 @@ function RooHopOverlay({ phase }: { phase: "idle" | "intro" | "hop" | "outro" })
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-
-const APPLY_URL = "https://apply.skiploans.com.au/";
 
 export function MainPage({ heroImage }: MainPageProps) {
   const { trigger: triggerRoo, phase: rooPhase } = useRooHopAnimation();
