@@ -11,12 +11,7 @@ export default function Home() {
         Go to Option 10 Page
       </Link>
 
-      <Link
-        href="/option8"
-        className="text-lg text-blue-600 underline hover:text-blue-800"
-      >
-        Go to Option 8 Page
-      </Link>
+
       <Link
         href="/option9"
         className="text-lg text-blue-600 underline hover:text-blue-800"
@@ -24,20 +19,27 @@ export default function Home() {
         Go to Option 9 Page
       </Link>
 
-      <div>other options</div>
-
-      <Link
-        href="/option1"
-        className="text-lg text-blue-600 underline hover:text-blue-800"
-      >
-        Go to Option 1 Page
-      </Link>
       <Link
         href="/option11"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
         Go to Option 11 Page
       </Link>
+
+      <div>other options</div>
+      <Link
+        href="/option8"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 8 Page
+      </Link>
+      <Link
+        href="/option1"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 1 Page
+      </Link>
+      
       <Link
         href="/option12"
         className="text-lg text-blue-600 underline hover:text-blue-800"

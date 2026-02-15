@@ -211,18 +211,18 @@ function Hero() {
   const textY = useTransform(scrollY, [0, 500], [0, 80]);
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink">
+    <section className="relative flex min-h-[130svh] items-center overflow-hidden bg-ink">
       {/* Background image with parallax */}
       <motion.div
         style={shouldReduceMotion ? undefined : { scale: heroScale }}
-        className="absolute inset-0"
+        className="absolute inset-0 md:inset-x-[25%] md:inset-y-[10%]"
       >
         <Image
           src="/hero-keys-kangaroo.png"
           alt="Skip mascot holding house keys"
           fill
           priority
-          className="object-cover object-[center_20%]"
+          className="object-cover object-[center_20%] md:object-top md:rounded-3xl md:[mask-image:radial-gradient(ellipse_70%_70%_at_center,black_30%,transparent_85%)]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/30 to-ink/60" />
@@ -259,7 +259,19 @@ function Hero() {
               <motion.h1
                 className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] tracking-[-0.03em] text-white"
               >
-                {["Own", "your", "home"].map((word, i) => (
+                {["Skip", "to"].map((word, i) => (
+                  <motion.span
+                    key={word}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3 + i * 0.1, ease: MOTION_EASE }}
+                    className="mr-[0.25em] inline-block"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+                <br />
+                {["the", "owning", "bit"].map((word, i) => (
                   <motion.span
                     key={word}
                     initial={{ opacity: 0, y: 50 }}
@@ -792,7 +804,8 @@ function ComparisonSection() {
             Same loan. <span className="text-brand/35">Smaller barrier.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-ink/50">
-            Skip follows the same process as a bank. The only difference? How much deposit you need.
+            Skip follows the same process as a bank. The only difference? How
+            much deposit you need.
           </p>
         </Reveal>
 
@@ -802,20 +815,36 @@ function ComparisonSection() {
             <div className="grid grid-cols-[1.2fr_1fr_1fr] bg-gradient-to-r from-brand to-brand-dark p-6">
               <div />
               <div className="text-center">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Traditional</div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/50">
+                  Traditional
+                </div>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-mint">Skip</div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-mint">
+                  Skip
+                </div>
               </div>
             </div>
 
             {/* Rows */}
             <div className="divide-y divide-brand/8">
               {rows.map((row, i) => (
-                <div key={row.label} className={cn("grid grid-cols-[1.2fr_1fr_1fr] items-center px-6 py-5", i < 2 && "bg-mint/4")}>
-                  <span className="text-sm font-medium text-ink/70">{row.label}</span>
-                  <span className="text-center text-sm text-ink/40">{row.bank}</span>
-                  <span className="text-center text-sm font-semibold text-brand">{row.skip}</span>
+                <div
+                  key={row.label}
+                  className={cn(
+                    "grid grid-cols-[1.2fr_1fr_1fr] items-center px-6 py-5",
+                    i < 2 && "bg-mint/4",
+                  )}
+                >
+                  <span className="text-sm font-medium text-ink/70">
+                    {row.label}
+                  </span>
+                  <span className="text-center text-sm text-ink/40">
+                    {row.bank}
+                  </span>
+                  <span className="text-center text-sm font-semibold text-brand">
+                    {row.skip}
+                  </span>
                 </div>
               ))}
             </div>
@@ -824,7 +853,9 @@ function ComparisonSection() {
             <div className="border-t border-brand/8 bg-canvas/50 p-6 text-center">
               <div className="inline-flex items-center gap-3 rounded-full bg-mint/15 px-5 py-3">
                 <TrendingDown className="size-5 text-brand" />
-                <span className="text-sm font-semibold text-brand">Save up to $180,000 on a $1M property</span>
+                <span className="text-sm font-semibold text-brand">
+                  Save up to $180,000 on a $1M property
+                </span>
               </div>
             </div>
           </div>
