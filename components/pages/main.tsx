@@ -25,6 +25,7 @@ import {
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { SkipLogoPressButton } from "@/components/brand/skip-logo-press-button";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
+import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -121,27 +122,6 @@ const SKIP_TO_CARDS = [
     description: "Enter the market with less cash tied up in deposit.",
     imageSrc: "/skip-investment-property.png",
     imageAlt: "Kangaroo at sunset representing investment goals",
-  },
-];
-
-const STORIES = [
-  {
-    quote:
-      "We were planning to wait another four years. Skip changed our timeline and we purchased in six months.",
-    name: "Mia & Jordan",
-    location: "Melbourne VIC",
-  },
-  {
-    quote:
-      "Felt like a modern private-banking experience: clear, fast, and brutally practical about what mattered.",
-    name: "Amir K.",
-    location: "Sydney NSW",
-  },
-  {
-    quote:
-      "The numbers were transparent from day one. No theatre, no surprises, just a path that actually worked.",
-    name: "Sophie L.",
-    location: "Brisbane QLD",
   },
 ];
 
@@ -1318,6 +1298,107 @@ function RatesSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => vo
   );
 }
 
+function TrustProofSection() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="section-y relative overflow-hidden bg-gradient-to-b from-canvas via-white to-canvas">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(121,200,155,0.16),transparent_40%)]" />
+
+      <div className="section-shell relative grid gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55, ease: MOTION_EASE }}
+          className="space-y-7"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: MOTION_EASE }}
+          >
+            <Badge variant="mint" className="px-5 py-2 text-sm">
+              Regulated • Real • Revolutionary
+            </Badge>
+          </motion.div>
+          <div className="space-y-4">
+            <h2 className="section-heading max-w-[14ch] text-brand">
+              Don&apos;t be constrained by your deposit.
+            </h2>
+            <p className="measure-copy text-lg leading-relaxed text-ink/65 md:text-xl">
+              Skip exists to make it possibe for Austrlaian to buy a home sooner than they think.
+              A modern lender who understands the challenges of buying a home in Australia.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {TRUST_PILLARS.map(({ icon: Icon, title, description }, index) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, x: -18 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.45, delay: 0.1 + index * 0.08 }}
+              >
+                <Card className="border-brand/10 bg-white/85 p-4 backdrop-blur-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mint/20 text-brand">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-semibold text-ink">{title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-ink/60">{description}</p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55, delay: 0.12, ease: MOTION_EASE }}
+          className="relative"
+        >
+          <Card className="shadow-refined-lg relative overflow-hidden rounded-[2rem] border-brand/15 bg-white p-2">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.7rem]">
+              <Image
+                src="/hero-keys-kangaroo.png"
+                alt="Kangaroo holding house keys"
+                fill
+                className="object-cover object-top"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand/45 via-transparent to-transparent" />
+            </div>
+          </Card>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            className="absolute -bottom-6 -left-4 rounded-2xl border border-mint/35 bg-white/92 px-4 py-3 shadow-xl backdrop-blur-md md:-left-6"
+          >
+            <p className="text-[11px] uppercase tracking-[0.16em] text-ink/50">Approval pace</p>
+            <p className="text-xl font-semibold text-brand">48 hours typical</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.42 }}
+            className="absolute -top-6 right-1 rounded-2xl border border-white/30 bg-brand/90 px-4 py-3 text-white shadow-xl backdrop-blur-md md:right-3"
+          >
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/65">Deposit</p>
+            <p className="text-xl font-semibold">2%</p>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Calculator                                                         */
 /* ------------------------------------------------------------------ */
@@ -1337,7 +1418,7 @@ function CalculatorSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) 
               Calculator
             </p>
             <h2 className="mx-auto max-w-[20ch] font-display text-4xl tracking-[-0.025em] text-brand md:text-5xl lg:text-6xl">
-              See what your savings can buy
+              See what your savings can buy now
             </h2>
             <p className="mx-auto max-w-[50ch] text-base text-ink/55">
               Slide to adjust your deposit and see your estimated purchasing power instantly.
@@ -1494,7 +1575,6 @@ function HowItWorksSection() {
 /* ------------------------------------------------------------------ */
 
 function JourneySection() {
-  const reduceMotion = useReducedMotion();
   return (
     <section className="section-y bg-canvas">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -1968,12 +2048,14 @@ export function MainPage({ heroImage }: MainPageProps) {
         <main className="bg-canvas text-ink">
           <StickyHeader onCtaClick={handleCtaClick} />
           <Hero heroImage={heroImage} onCtaClick={handleCtaClick} />
-          <TrustStrip />
+          {/* <TrustStrip /> */}
+          <TrustProofSection/>
           <ValuePropSection />
 
           <RenderBoundary intrinsicSize="1050px">
             <RatesSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
+         
           <RenderBoundary intrinsicSize="980px">
             <CalculatorSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
