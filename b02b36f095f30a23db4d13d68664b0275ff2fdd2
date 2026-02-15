@@ -1,0 +1,24 @@
+components/pages/main.tsx
+  2ccb0728683e4fea 787-788,861,863-864,1989-1995
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "b02b36f095f30a23db4d13d68664b0275ff2fdd2",
+  "prompts": {
+    "2ccb0728683e4fea": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "736df885-c72a-4268-a768-ce7425af3db5",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 8,
+      "accepted_lines": 12,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/89452fa4c7c9fce906162bf8359a6575013eeed9d6a7077d0dbcdaabeaf59338"
+    }
+  }
+}
