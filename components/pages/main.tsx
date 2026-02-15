@@ -2051,13 +2051,12 @@ export function MainPage({ heroImage }: MainPageProps) {
           {/* <TrustStrip /> */}
           <TrustProofSection/>
           <ValuePropSection />
-
-          <RenderBoundary intrinsicSize="1050px">
-            <RatesSection onCtaClick={handleCtaClick} />
-          </RenderBoundary>
          
           <RenderBoundary intrinsicSize="980px">
             <CalculatorSection onCtaClick={handleCtaClick} />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="1050px">
+            <RatesSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="980px">
             <FirstHomeBuyerConstraintSection onCtaClick={handleCtaClick} />
