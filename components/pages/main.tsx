@@ -784,8 +784,8 @@ function Hero({
         style={shouldReduceMotion ? undefined : { opacity }}
         className="relative z-10 w-full"
       >
-        <div className="mx-auto max-w-7xl px-5 pb-10 pt-32 md:px-8 md:pb-16 md:pt-40 lg:pb-20">
-          <div className="max-w-2xl space-y-6">
+        <div className="mx-auto max-w-7xl px-5 pb-8 pt-28 md:px-8 md:pb-16 md:pt-40 lg:pb-20">
+          <div className="max-w-2xl space-y-4 md:space-y-6">
             <m.div
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
@@ -858,10 +858,10 @@ function Hero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.75, ease: MOTION_EASE }}
-            className="mt-10 md:mt-14"
+            className="mt-8 md:mt-14"
           >
-            {/* Mobile: single row of values */}
-            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/8 px-4 py-3 backdrop-blur-md md:hidden">
+            {/* Mobile: single row of values (hidden on short viewports) */}
+            <div className="hero-social-mobile flex items-center gap-3 rounded-2xl border border-white/15 bg-white/8 px-4 py-3 backdrop-blur-md md:hidden">
               {SOCIAL_PROOF.map((item, i) => (
                 <div key={item.label} className="flex items-center gap-3">
                   {i > 0 && <span className="h-4 w-px bg-white/20" />}
@@ -1983,6 +1983,13 @@ export function MainPage({ heroImage }: MainPageProps) {
               }
               to {
                 transform: translateX(-50%);
+              }
+            }
+
+            /* Hide mobile social proof on short viewports */
+            @media (max-height: 780px) {
+              .hero-social-mobile {
+                display: none !important;
               }
             }
 
