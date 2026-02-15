@@ -1709,8 +1709,8 @@ function FinalCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }
 
 function MarqueeStrip() {
   return (
-    <section className="overflow-hidden border-y border-brand/10 bg-mint/30 py-3">
-      <div className="marquee-track flex min-w-max items-center gap-10 text-xs font-semibold uppercase tracking-[0.2em] text-brand/80 md:text-sm">
+    <section className="overflow-hidden border-y border-brand/10 bg-mint/20 py-3">
+      <div className="marquee-track flex min-w-max items-center gap-10 text-xs font-semibold uppercase tracking-[0.2em] text-brand md:text-sm">
         {Array.from({ length: 18 }).map((_, i) => (
           <span
             key={i}
