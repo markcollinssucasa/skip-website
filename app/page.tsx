@@ -33,6 +33,19 @@ export default function Home() {
         Go to Option 1 Page
       </Link>
       <Link
+        href="/option11"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 11 Page
+      </Link>
+      <Link
+        href="/option12"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 12 Page
+      </Link>
+      
+      <Link
         href="/option2"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >

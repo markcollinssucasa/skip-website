@@ -32,6 +32,7 @@ import {
   domAnimation,
   LazyMotion,
   m,
+  motion,
   MotionConfig,
   useInView,
   useReducedMotion,
@@ -119,6 +120,27 @@ const SKIP_TO_CARDS = [
     description: "Enter the market with less cash tied up in deposit.",
     imageSrc: "/skip-investment-property.png",
     imageAlt: "Kangaroo at sunset representing investment goals",
+  },
+];
+
+const STORIES = [
+  {
+    quote:
+      "We were planning to wait another four years. Skip changed our timeline and we purchased in six months.",
+    name: "Mia & Jordan",
+    location: "Melbourne VIC",
+  },
+  {
+    quote:
+      "Felt like a modern private-banking experience: clear, fast, and brutally practical about what mattered.",
+    name: "Amir K.",
+    location: "Sydney NSW",
+  },
+  {
+    quote:
+      "The numbers were transparent from day one. No theatre, no surprises, just a path that actually worked.",
+    name: "Sophie L.",
+    location: "Brisbane QLD",
   },
 ];
 
@@ -749,7 +771,7 @@ function Hero({
           priority
           fetchPriority="high"
           sizes="100vw"
-          quality={74}
+          quality={75}
           className="object-cover"
           style={{ objectPosition: heroImage.objectPosition ?? "center 35%" }}
         />
@@ -1433,6 +1455,7 @@ function HowItWorksSection() {
 /* ------------------------------------------------------------------ */
 
 function JourneySection() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="section-y bg-canvas">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -1447,34 +1470,32 @@ function JourneySection() {
           </div>
         </AnimatedSection>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {SKIP_TO_CARDS.map((card, i) => (
-            <AnimatedSection key={card.title} delay={i * 0.1}>
-              <Card className="group h-full overflow-hidden rounded-[1.75rem] border-brand/10 bg-white transition-shadow hover:shadow-[0_20px_50px_-20px_rgba(31,86,58,0.15)]">
-                <CardContent className="p-4 md:p-5">
-                  <div className="relative mb-4 aspect-[4/5] overflow-hidden rounded-2xl">
-                    <Image
-                      src={card.imageSrc}
-                      alt={card.imageAlt}
-                      fill
-                      sizes="(min-width: 1280px) 392px, (min-width: 768px) calc((100vw - 6.5rem) / 3), calc(100vw - 2.5rem)"
-                      quality={72}
-                      loading="lazy"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand/20 via-transparent to-transparent" />
-                  </div>
-                  <h3 className="font-display text-2xl tracking-[-0.02em] text-brand">
-                    {card.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/60">
-                    {card.description}
-                  </p>
-                </CardContent>
-              </Card>
+        <div className="grid gap-6 md:grid-cols-3">
+          {SKIP_TO_CARDS.map((item, index) => (
+            <AnimatedSection key={item.title} delay={0.1 + index * 0.1}>
+              <div className="group relative overflow-hidden rounded-[2rem] bg-ink">
+                <div className="relative h-[420px] overflow-hidden">
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.imageAlt}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-7">
+                  <h3 className="font-display text-3xl tracking-tight text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{item.description}</p>
+                  <a href="#apply" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-mint transition-colors hover:text-mint/80">
+                    Learn more <ArrowRight className="size-3.5" />
+                  </a>
+                </div>
+              </div>
             </AnimatedSection>
           ))}
         </div>
+        
       </div>
     </section>
   );
