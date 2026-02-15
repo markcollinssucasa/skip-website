@@ -1,0 +1,26 @@
+components/brand/skip-logo-press-button.tsx
+  b1191dd7f23e59e6 34-35,42,53,74-75,78,83,120,123,153,182-184,197,209,246
+components/brand/skip-to-owning-bit-heading.tsx
+  b1191dd7f23e59e6 41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "2af37d4d697e80c7ad08db2a578dfcee6a029361",
+  "prompts": {
+    "b1191dd7f23e59e6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d6868696-a3e2-4500-85db-d9fcd3af36fa",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 14,
+      "accepted_lines": 18,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/4dec28bd6becb15db14a18f117f57adba08055d0847bcde7ae07a93d13236b30"
+    }
+  }
+}
