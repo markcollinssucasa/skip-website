@@ -19,9 +19,9 @@ interface SkipRooRunnerScrollPreviewProps {
 
 const OBSTACLE_LABELS = [
   "20% deposit",
-  "years of waiting",
+  "Years of saving",
   "FHB retrictions",
-  "big bank rules",
+  "Big bank rules",
   "Renting",
 ];
 
@@ -173,7 +173,7 @@ export function SkipRooRunnerScrollPreview({ className }: SkipRooRunnerScrollPre
       ref={arenaRef}
       aria-label="Skip Roo auto runner preview"
       className={cn(
-        "relative h-[220px] w-full overflow-hidden border-y border-brand/10 bg-[#f8fbf8] sm:h-[270px] md:h-[320px]",
+        "relative h-[360px] w-full overflow-hidden border-y border-brand/10 bg-[#f8fbf8] sm:h-[400px] md:h-[440px]",
         className,
       )}
     >

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -39,9 +39,9 @@ const SCORE_RATE = 12;
 
 const OBSTACLE_LABELS = [
   "20% deposit",
-  "years of waiting",
+  "Years of saving",
   "FHB retrictions",
-  "big bank rules",
+  "Big bank rules",
   "Renting",
 ];
 
@@ -92,13 +92,17 @@ const createObstacle = (x: number, id: number, label: string, arenaWidth: number
 const isJumpCode = (code: string) => code === "Space" || code === "ArrowUp" || code === "KeyW";
 const isJumpKey = (key: string) => key === " " || key === "ArrowUp" || key.toLowerCase() === "w";
 
-export function SkipRooRunnerGame({
+export interface SkipRooRunnerGameHandle {
+  jump: () => void;
+}
+
+export const SkipRooRunnerGame = forwardRef<SkipRooRunnerGameHandle, SkipRooRunnerGameProps>(function SkipRooRunnerGame({
   className,
   keyboardScope = "global",
   variant = "card",
   hudMode = "stacked",
   autoStart = false,
-}: SkipRooRunnerGameProps) {
+}, ref) {
   const arenaRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number | null>(null);
@@ -157,6 +161,8 @@ export function SkipRooRunnerGame({
       velocityRef.current = JUMP_VELOCITY;
     }
   }, [resetGame]);
+
+  useImperativeHandle(ref, () => ({ jump }), [jump]);
 
   useEffect(() => {
     bestScoreRef.current = bestScore;
@@ -372,7 +378,7 @@ export function SkipRooRunnerGame({
           }
         }}
         className={cn(
-          "relative h-[220px] w-full touch-manipulation select-none overflow-hidden sm:h-[270px] md:h-[320px]",
+          "relative h-[360px] w-full touch-manipulation select-none overflow-hidden sm:h-[400px] md:h-[440px]",
           fullBleed
             ? "border-y border-brand/10 bg-[#f8fbf8]"
             : "rounded-2xl border-2 border-ink/45 bg-[#f8fbf8]",
@@ -444,4 +450,4 @@ export function SkipRooRunnerGame({
       </div>
     </section>
   );
-}
+});

@@ -25,7 +25,8 @@ import {
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { SkipLogoPressButton } from "@/components/brand/skip-logo-press-button";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
-import { SkipRooRunnerGame } from "@/components/ui/skip-roo-runner-game";
+import { SkipRooRunnerGame, type SkipRooRunnerGameHandle } from "@/components/ui/skip-roo-runner-game";
+// import { SkipRooRightScrollRunner } from "@/components/ui/skip-roo-right-scroll-runner";
 import { SkipRooRunnerScrollPreview } from "@/components/ui/skip-roo-runner-scroll-preview";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -246,6 +247,14 @@ const REVIEW_CARDS = [
     location: "Geelong VIC",
     rating: 5,
   },
+];
+
+const COMPLETED_HURDLES = [
+  "Renting",
+  "20% deposit",
+  "Years of saving",
+  "FHB retrictions",
+  "Big bank rules",
 ];
 
 /* ------------------------------------------------------------------ */
@@ -1844,12 +1853,69 @@ function MarqueeStrip() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Owning bit completion                                              */
+/* ------------------------------------------------------------------ */
+
+function OwningBitCompletionSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
+  return (
+    <section id="owning-bit-complete" className="pb-8 pt-14 md:pb-12 md:pt-18">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <AnimatedSection>
+          <Card className="relative overflow-hidden rounded-[1.75rem] border-none bg-transparent shadow-none">
+            <CardContent className="relative space-y-7 p-7 md:p-10">
+              <div className="space-y-3 text-center">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/60">
+                  Finish line
+                </p>
+                <SkipToOwningBitHeading
+                  as="h2"
+                  className="justify-center text-4xl tracking-[-0.03em] text-brand md:text-6xl"
+                  lineOne="you made it to the"
+                  lineTwo="owning bit."
+                />
+                <p className="mx-auto max-w-[58ch] text-sm leading-relaxed text-ink/65 md:text-base">
+                  You just skipped every hurdle. Now turn that momentum into keys in your hand.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
+                {COMPLETED_HURDLES.map((hurdle) => (
+                  <span
+                    key={hurdle}
+                    className="inline-flex items-center gap-2 rounded-none border border-brand/35 bg-transparent px-3 py-1.5 text-xs font-semibold text-brand md:text-sm"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5 text-brand" />
+                    <span>{hurdle}</span>
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex justify-center">
+                <ApplyCta
+                  variant="brand"
+                  size="lg"
+                  className="rounded-full px-8 font-semibold"
+                  onClick={onCtaClick}
+                >
+                  Start owning now
+                </ApplyCta>
+              </div>
+            </CardContent>
+          </Card>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Roo runner section                                                 */
 /* ------------------------------------------------------------------ */
 
 function RooRunnerSection() {
   const [playingInline, setPlayingInline] = useState(false);
   const [showPlayHintModal, setShowPlayHintModal] = useState(false);
+  const gameRef = useRef<SkipRooRunnerGameHandle>(null);
 
   useEffect(() => {
     if (!showPlayHintModal) {
@@ -1874,8 +1940,7 @@ function RooRunnerSection() {
             <Badge className="mb-3 rounded-full bg-brand/10 text-brand hover:bg-brand/10">New</Badge>
             <h2 className="section-heading text-3xl md:text-5xl">Leap Past The Old Property Hurdles</h2>
             <p className="mx-auto mt-3 max-w-[56ch] text-sm leading-relaxed text-ink/65 md:text-base">
-              Watch Skip Roo jump over the barriers that keep most buyers stuck renting. Then jump in and play the
-              full game yourself.
+              Play the game for yourself.
             </p>
           </div>
 
@@ -1886,6 +1951,7 @@ function RooRunnerSection() {
       <div className="mt-8">
         {playingInline ? (
           <SkipRooRunnerGame
+            ref={gameRef}
             keyboardScope="global"
             variant="full-bleed"
             hudMode="overlay"
@@ -1895,7 +1961,7 @@ function RooRunnerSection() {
           <SkipRooRunnerScrollPreview />
         )}
       </div>
-      <div className="flex justify-center mt-8">
+      <div className="flex flex-col items-center gap-3 mt-8">
         {!playingInline ? (
           <button
             type="button"
@@ -1911,15 +1977,24 @@ function RooRunnerSection() {
             Play the game
           </button>
         ) : (
-          <a
-            href="/game"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "lg" }),
-              "rounded-full border-brand/25 px-10 font-semibold text-brand hover:border-brand/45 hover:bg-brand/5",
-            )}
-          >
-            Open on dedicated page
-          </a>
+          <>
+            <button
+              type="button"
+              onClick={() => gameRef.current?.jump()}
+              className={cn(
+                buttonVariants({ variant: "brand", size: "lg" }),
+                "rounded-full px-10 font-semibold",
+              )}
+            >
+              Jump! (Space)
+            </button>
+            <a
+              href="/game"
+              className="text-sm font-medium text-brand/70 underline underline-offset-2 transition hover:text-brand"
+            >
+              Open on dedicated page
+            </a>
+          </>
         )}
       </div>
 
@@ -2199,9 +2274,13 @@ export function MainPage({ heroImage }: MainPageProps) {
             <MarqueeStrip />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="520px">
+            <OwningBitCompletionSection onCtaClick={handleCtaClick} />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="520px">
             <Footer />
           </RenderBoundary>
           <MobileStickyCTA onCtaClick={handleCtaClick} />
+          {/* <SkipRooRightScrollRunner /> */}
           <RooHopOverlay phase={rooPhase} />
 
           <style jsx global>{`
