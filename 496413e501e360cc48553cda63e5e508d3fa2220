@@ -1,0 +1,45 @@
+components/ui/skip-roo-right-scroll-runner.tsx
+  7d4baf5ad3aef2b2 1-330
+components/ui/skip-roo-runner-scroll-preview.tsx
+  acd2ef900bf4066f 22,24,176
+components/ui/skip-roo-runner-game.tsx
+  acd2ef900bf4066f 4,42,44,95-99,105,165-166,381,453
+components/pages/main.tsx
+  acd2ef900bf4066f 28,1918,1954,1964,1980-1983,1985-1986,1988-1993,1996-1997
+  7d4baf5ad3aef2b2 252-254,256,258-259,1855-1905,2276-2277
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "496413e501e360cc48553cda63e5e508d3fa2220",
+  "prompts": {
+    "7d4baf5ad3aef2b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c6346-291a-7601-ad67-f36a1cc8ac5d",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 439,
+      "total_deletions": 40,
+      "accepted_lines": 395,
+      "overriden_lines": 4,
+      "messages_url": "https://usegitai.com/cas/da8f88c7ea7c6f2b57f4aa44d00eb963856213fd844b8f713eb0051f26d76d61"
+    },
+    "acd2ef900bf4066f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9b1341ed-3155-4b5b-ada7-f594101335d9",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 42,
+      "total_deletions": 25,
+      "accepted_lines": 34,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/87ae17f97db9e29dd577ea5b31a6adebd2c0f85e027cd9b350ae335feeca2269"
+    }
+  }
+}
