@@ -25,6 +25,7 @@ import {
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { SkipLogoPressButton } from "@/components/brand/skip-logo-press-button";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
+import { SkipRooRunnerGame } from "@/components/ui/skip-roo-runner-game";
 import { SkipRooRunnerScrollPreview } from "@/components/ui/skip-roo-runner-scroll-preview";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -1847,6 +1848,24 @@ function MarqueeStrip() {
 /* ------------------------------------------------------------------ */
 
 function RooRunnerSection() {
+  const [playingInline, setPlayingInline] = useState(false);
+  const [showPlayHintModal, setShowPlayHintModal] = useState(false);
+
+  useEffect(() => {
+    if (!showPlayHintModal) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowPlayHintModal(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showPlayHintModal]);
+
   return (
     <section id="roo-runner" className="section-y bg-white">
       <div className="section-shell">
@@ -1860,23 +1879,79 @@ function RooRunnerSection() {
             </p>
           </div>
 
-          <div className="flex justify-center">
-            <a
-              href="/game"
-              className={cn(
-                buttonVariants({ variant: "brand", size: "lg" }),
-                "rounded-full px-10 font-semibold",
-              )}
-            >
-              Play the game
-            </a>
-          </div>
+          
         </AnimatedSection>
       </div>
 
       <div className="mt-8">
-        <SkipRooRunnerScrollPreview />
+        {playingInline ? (
+          <SkipRooRunnerGame
+            keyboardScope="global"
+            variant="full-bleed"
+            hudMode="overlay"
+            autoStart
+          />
+        ) : (
+          <SkipRooRunnerScrollPreview />
+        )}
       </div>
+      <div className="flex justify-center mt-8">
+        {!playingInline ? (
+          <button
+            type="button"
+            onClick={() => {
+              setPlayingInline(true);
+              setShowPlayHintModal(true);
+            }}
+            className={cn(
+              buttonVariants({ variant: "brand", size: "lg" }),
+              "rounded-full px-10 font-semibold",
+            )}
+          >
+            Play the game
+          </button>
+        ) : (
+          <a
+            href="/game"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "rounded-full border-brand/25 px-10 font-semibold text-brand hover:border-brand/45 hover:bg-brand/5",
+            )}
+          >
+            Open on dedicated page
+          </a>
+        )}
+      </div>
+
+      {showPlayHintModal && (
+        <div
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/45 px-4 backdrop-blur-[2px]"
+          onClick={() => setShowPlayHintModal(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Game controls"
+            className="w-full max-w-md rounded-2xl border border-brand/15 bg-white p-6 text-center shadow-refined-lg"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand/55">How to play</p>
+            <p className="mt-3 text-lg font-semibold text-brand">
+              Tap, click or press space to jump over hurdles
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPlayHintModal(false)}
+              className={cn(
+                buttonVariants({ variant: "brand", size: "sm" }),
+                "mt-5 rounded-full px-6",
+              )}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

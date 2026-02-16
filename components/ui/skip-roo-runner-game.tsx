@@ -27,6 +27,8 @@ interface SkipRooRunnerGameProps {
   className?: string;
   keyboardScope?: KeyboardScope;
   variant?: "card" | "full-bleed";
+  hudMode?: "stacked" | "overlay";
+  autoStart?: boolean;
 }
 
 const BASE_SPEED = 220;
@@ -94,14 +96,17 @@ export function SkipRooRunnerGame({
   className,
   keyboardScope = "global",
   variant = "card",
+  hudMode = "stacked",
+  autoStart = false,
 }: SkipRooRunnerGameProps) {
   const arenaRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number | null>(null);
   const nextObstacleIdRef = useRef(1);
   const nextLabelIndexRef = useRef(0);
+  const initialStatus: GameStatus = autoStart ? "running" : "ready";
 
-  const statusRef = useRef<GameStatus>("ready");
+  const statusRef = useRef<GameStatus>(initialStatus);
   const velocityRef = useRef(0);
   const runnerYRef = useRef(0);
   const scoreRef = useRef(0);
@@ -109,7 +114,7 @@ export function SkipRooRunnerGame({
   const spawnRef = useRef(1);
   const obstaclesRef = useRef<Obstacle[]>([]);
 
-  const [status, setStatus] = useState<GameStatus>("ready");
+  const [status, setStatus] = useState<GameStatus>(initialStatus);
   const [arenaWidth, setArenaWidth] = useState(960);
   const [runnerY, setRunnerY] = useState(0);
   const [score, setScore] = useState(0);
@@ -117,6 +122,7 @@ export function SkipRooRunnerGame({
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const bestScoreRef = useRef(bestScore);
   const fullBleed = variant === "full-bleed";
+  const overlayHud = hudMode === "overlay";
 
   const resetGame = useCallback((nextStatus: GameStatus = "ready") => {
     statusRef.current = nextStatus;
@@ -296,6 +302,36 @@ export function SkipRooRunnerGame({
 
   const runnerMetrics = getRunnerMetrics(arenaWidth);
 
+  const hud = (
+    <div
+      className={cn(
+        "flex flex-wrap items-center justify-between gap-3 text-xs font-medium text-ink/80 md:text-sm",
+        overlayHud ? "rounded-xl border border-brand/20 bg-white/88 px-3 py-2 shadow-sm backdrop-blur-sm" : "",
+      )}
+    >
+      <p className="max-w-[42ch] text-ink/70">
+        {keyboardScope === "global"
+          ? "Tap, click, or press Space to jump."
+          : "Tap or click to jump. On desktop, click the game first then press Space."}
+      </p>
+      <div className="flex items-center gap-3 md:gap-4">
+        <span>
+          Score: <strong className="font-semibold text-ink">{score}</strong>
+        </span>
+        <span>
+          Best: <strong className="font-semibold text-ink">{bestScore}</strong>
+        </span>
+        <button
+          type="button"
+          onClick={() => resetGame("ready")}
+          className="rounded-full border border-brand/25 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-brand transition hover:bg-brand hover:text-white md:px-3 md:py-1.5 md:text-xs"
+        >
+          Reset (R)
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <section
       className={cn(
@@ -303,33 +339,16 @@ export function SkipRooRunnerGame({
         className,
       )}
     >
-      <div
-        className={cn(
-          "mb-3 flex flex-wrap items-center justify-between gap-3 text-xs font-medium text-ink/80 md:mb-4 md:text-sm",
-          fullBleed && "mx-auto w-full max-w-7xl px-5 md:px-8",
-        )}
-      >
-        <p className="max-w-[42ch] text-ink/70">
-          {keyboardScope === "global"
-            ? "Tap, click, or press Space to jump."
-            : "Tap or click to jump. On desktop, click the game first then press Space."}
-        </p>
-        <div className="flex items-center gap-3 md:gap-4">
-          <span>
-            Score: <strong className="font-semibold text-ink">{score}</strong>
-          </span>
-          <span>
-            Best: <strong className="font-semibold text-ink">{bestScore}</strong>
-          </span>
-          <button
-            type="button"
-            onClick={() => resetGame("ready")}
-            className="rounded-full border border-brand/25 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-brand transition hover:bg-brand hover:text-white md:px-3 md:py-1.5 md:text-xs"
-          >
-            Reset (R)
-          </button>
+      {!overlayHud && (
+        <div
+          className={cn(
+            "mb-3 md:mb-4",
+            fullBleed && "mx-auto w-full max-w-7xl px-5 md:px-8",
+          )}
+        >
+          {hud}
         </div>
-      </div>
+      )}
 
       <div
         ref={arenaRef}
@@ -353,12 +372,20 @@ export function SkipRooRunnerGame({
           }
         }}
         className={cn(
-          "relative h-[210px] w-full touch-manipulation select-none overflow-hidden sm:h-[250px] md:h-[300px]",
+          "relative h-[220px] w-full touch-manipulation select-none overflow-hidden sm:h-[270px] md:h-[320px]",
           fullBleed
             ? "border-y border-brand/10 bg-[#f8fbf8]"
             : "rounded-2xl border-2 border-ink/45 bg-[#f8fbf8]",
         )}
       >
+        {overlayHud && (
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-20 p-3 md:p-4">
+            <div className={cn(fullBleed ? "mx-auto w-full max-w-7xl" : "")}>
+              <div className="pointer-events-auto">{hud}</div>
+            </div>
+          </div>
+        )}
+
         <div
           className="pointer-events-none absolute left-0 h-px w-[200%] bg-repeat-x opacity-50"
           style={{
