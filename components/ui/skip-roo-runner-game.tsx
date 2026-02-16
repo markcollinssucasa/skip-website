@@ -193,7 +193,9 @@ export const SkipRooRunnerGame = forwardRef<SkipRooRunnerGameHandle, SkipRooRunn
     const onKeyDown = (event: KeyboardEvent) => {
       if (isJumpCode(event.code)) {
         event.preventDefault();
-        jump();
+        if (statusRef.current !== "over") {
+          jump();
+        }
         return;
       }
 
@@ -363,12 +365,16 @@ export const SkipRooRunnerGame = forwardRef<SkipRooRunnerGameHandle, SkipRooRunn
         aria-label="Skip Roo jump game area"
         onPointerDown={(event) => {
           event.currentTarget.focus();
-          jump();
+          if (statusRef.current !== "over") {
+            jump();
+          }
         }}
         onKeyDown={(event) => {
           if (isJumpKey(event.key)) {
             event.preventDefault();
-            jump();
+            if (statusRef.current !== "over") {
+              jump();
+            }
             return;
           }
 
@@ -440,11 +446,35 @@ export const SkipRooRunnerGame = forwardRef<SkipRooRunnerGameHandle, SkipRooRunn
           />
         </div>
 
-        {status !== "running" && (
+        {status === "ready" && (
           <div className="pointer-events-none absolute inset-x-0 top-4 px-3 text-center sm:top-6">
-            <p className="text-xs font-semibold text-ink/80 sm:text-sm">
-              {status === "ready" ? "Jump to start" : "Game over - jump to restart"}
-            </p>
+            <p className="text-xs font-semibold text-ink/80 sm:text-sm">Jump to start</p>
+          </div>
+        )}
+
+        {status === "over" && (
+          <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
+            <div className="pointer-events-auto mx-4 flex flex-col items-center gap-3 rounded-2xl border border-brand/20 bg-white px-8 py-6 shadow-xl sm:gap-4 sm:px-10 sm:py-8">
+              <p className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Game Over</p>
+              <div className="flex items-center gap-4 text-sm text-ink/70 sm:text-base">
+                <span>
+                  Score: <strong className="font-semibold text-ink">{score}</strong>
+                </span>
+                <span>
+                  Best: <strong className="font-semibold text-ink">{bestScore}</strong>
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  resetGame("running");
+                }}
+                className="mt-1 rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-brand/90 active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
+              >
+                Play Again
+              </button>
+            </div>
           </div>
         )}
       </div>
