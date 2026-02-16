@@ -1,0 +1,24 @@
+components/ui/skip-roo-runner-game.tsx
+  38aaeac6afb19b58 196,198,368,370,375,377,449,451-477
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "c7f98c96f41b3c26510259e6ba255cc873a8ecf3",
+  "prompts": {
+    "38aaeac6afb19b58": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f52429bf-1263-47dd-b4db-8ce6b835b44f",
+        "model": "claude-4.6-opus-high-thinking"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 37,
+      "total_deletions": 7,
+      "accepted_lines": 34,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/be23c4844423a3dbc3b41852511fa0818e0a519e91e413b7e08007beda25ace7"
+    }
+  }
+}
