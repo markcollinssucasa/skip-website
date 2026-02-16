@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { SkipRooRunnerScrollPreview } from "@/components/ui/skip-roo-runner-scroll-preview";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
 import { cn } from "@/lib/utils";
 
@@ -1293,6 +1294,57 @@ function ClosingCtaSection() {
   );
 }
 
+function RooRunnerAutoPreviewSection() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setVisible(window.scrollY >= window.innerHeight * 2);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <section id="roo-runner" className="section-shell pb-20">
+      <div className="mx-auto max-w-2xl text-center">
+        <Badge className="mb-3 rounded-full bg-brand/10 text-brand hover:bg-brand/10">Auto Preview</Badge>
+        <h2 className="section-heading text-3xl md:text-5xl">Skip Roo Runner</h2>
+        <p className="mx-auto mt-3 max-w-[50ch] text-sm leading-relaxed text-brand/70 md:text-base">
+          As you scroll, Roo runs and jumps automatically. Tap play to open the full game.
+        </p>
+      </div>
+
+      <div className="mt-6">
+        <SkipRooRunnerScrollPreview />
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <a
+          href="/game"
+          className={cn(
+            buttonVariants({ variant: "brand", size: "lg" }),
+            "rounded-full px-10",
+          )}
+        >
+          Play
+        </a>
+      </div>
+    </section>
+  );
+}
+
 function MobileStickyCta() {
   const [visible, setVisible] = useState(false);
 
@@ -1439,6 +1491,7 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      <RooRunnerAutoPreviewSection />
       <ClosingCtaSection />
       <FooterSection />
       <MobileStickyCta />

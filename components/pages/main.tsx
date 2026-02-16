@@ -25,6 +25,7 @@ import {
 import { SkipLogo } from "@/components/brand/skip-logo";
 import { SkipLogoPressButton } from "@/components/brand/skip-logo-press-button";
 import { SkipToOwningBitHeading } from "@/components/brand/skip-to-owning-bit-heading";
+import { SkipRooRunnerScrollPreview } from "@/components/ui/skip-roo-runner-scroll-preview";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -1842,6 +1843,45 @@ function MarqueeStrip() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Roo runner section                                                 */
+/* ------------------------------------------------------------------ */
+
+function RooRunnerSection() {
+  return (
+    <section id="roo-runner" className="section-y bg-white">
+      <div className="section-shell">
+        <AnimatedSection className="space-y-6">
+          <div className="mx-auto max-w-2xl text-center">
+            <Badge className="mb-3 rounded-full bg-brand/10 text-brand hover:bg-brand/10">New</Badge>
+            <h2 className="section-heading text-3xl md:text-5xl">Leap Past The Old Property Hurdles</h2>
+            <p className="mx-auto mt-3 max-w-[56ch] text-sm leading-relaxed text-ink/65 md:text-base">
+              Watch Skip Roo jump over the barriers that keep most buyers stuck renting. Then jump in and play the
+              full game yourself.
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <a
+              href="/game"
+              className={cn(
+                buttonVariants({ variant: "brand", size: "lg" }),
+                "rounded-full px-10 font-semibold",
+              )}
+            >
+              Play the game
+            </a>
+          </div>
+        </AnimatedSection>
+      </div>
+
+      <div className="mt-8">
+        <SkipRooRunnerScrollPreview />
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Footer                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -2051,12 +2091,16 @@ export function MainPage({ heroImage }: MainPageProps) {
           {/* <TrustStrip /> */}
           <TrustProofSection/>
           <ValuePropSection />
+
+          <RenderBoundary intrinsicSize="1050px">
+            <RatesSection onCtaClick={handleCtaClick} />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="760px">
+            <RooRunnerSection />
+          </RenderBoundary>
          
           <RenderBoundary intrinsicSize="980px">
             <CalculatorSection onCtaClick={handleCtaClick} />
-          </RenderBoundary>
-          <RenderBoundary intrinsicSize="1050px">
-            <RatesSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="980px">
             <FirstHomeBuyerConstraintSection onCtaClick={handleCtaClick} />

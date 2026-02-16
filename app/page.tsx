@@ -26,6 +26,13 @@ export default function Home() {
         Go to Option 11 Page
       </Link>
 
+      <Link
+        href="/game"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Play Skip Roo Runner
+      </Link>
+
       <div>other options</div>
       <Link
         href="/option8"
