@@ -5,6 +5,12 @@ export default function Home() {
     <main className="flex min-h-screen items-center justify-center flex-col gap-4">
       <div>Preferred</div>
       <Link
+        href="/option14"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 14 Page (New)
+      </Link>
+      <Link
         href="/option10"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >

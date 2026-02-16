@@ -1770,67 +1770,6 @@ function FAQSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void
 }
 
 /* ------------------------------------------------------------------ */
-/*  Final CTA                                                          */
-/* ------------------------------------------------------------------ */
-
-function FinalCTA({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
-  return (
-    <section id="apply" className="mx-auto max-w-7xl px-5 pb-14 md:px-8 md:pb-20">
-      <AnimatedSection>
-        <Card className="relative overflow-hidden rounded-[1.75rem] border-none bg-gradient-to-br from-brand via-brand-mid to-brand-dark text-white shadow-[0_32px_80px_-32px_rgba(31,86,58,0.65)]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(121,200,155,0.35),transparent_45%)]" />
-          <CardContent className="relative flex flex-col items-center gap-7 p-8 text-center md:p-12 lg:p-16">
-            <SkipLogo variant={1} className="h-10 md:h-12" />
-            <h2 className="max-w-[18ch] font-display text-3xl leading-[0.98] tracking-[-0.025em] md:text-5xl lg:text-6xl">
-              Ready to skip to the owning bit?
-            </h2>
-            <p className="max-w-[50ch] text-base leading-relaxed text-white/75 md:text-lg">
-              Start with a quick application and get clarity on your borrowing path.
-              Our team guides every step.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/80">
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-mint" />
-                10-minute application
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-mint" />
-                Response in 48 hours
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-mint" />
-                Licensed Australian lender
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <ApplyCta
-                variant="mint"
-                size="lg"
-                className="rounded-full px-8 text-brand-dark font-semibold shadow-[0_12px_30px_-8px_rgba(121,200,155,0.5)]"
-                onClick={onCtaClick}
-              >
-                Start my application
-              </ApplyCta>
-              <a
-                href="#calculator"
-                className={cn(
-                  buttonVariants({ variant: "glass", size: "lg" }),
-                  "rounded-full border-white/25 px-8",
-                )}
-              >
-                Calculate first
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-      </AnimatedSection>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /*  Marquee strip                                                      */
 /* ------------------------------------------------------------------ */
 
@@ -2242,13 +2181,12 @@ export function MainPage({ heroImage }: MainPageProps) {
           <TrustProofSection/>
           <ValuePropSection />
 
+          <RenderBoundary intrinsicSize="980px">
+            <JourneySection />
+          </RenderBoundary>
           <RenderBoundary intrinsicSize="1050px">
             <RatesSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
-          <RenderBoundary intrinsicSize="760px">
-            <RooRunnerSection />
-          </RenderBoundary>
-         
           <RenderBoundary intrinsicSize="980px">
             <CalculatorSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
@@ -2258,9 +2196,6 @@ export function MainPage({ heroImage }: MainPageProps) {
           <RenderBoundary intrinsicSize="860px">
             <HowItWorksSection />
           </RenderBoundary>
-          <RenderBoundary intrinsicSize="980px">
-            <JourneySection />
-          </RenderBoundary>
           <RenderBoundary intrinsicSize="1120px">
             <ReviewsSection />
           </RenderBoundary>
@@ -2268,13 +2203,13 @@ export function MainPage({ heroImage }: MainPageProps) {
             <FAQSection onCtaClick={handleCtaClick} />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="760px">
-            <FinalCTA onCtaClick={handleCtaClick} />
-          </RenderBoundary>
-          <RenderBoundary intrinsicSize="90px">
-            <MarqueeStrip />
+            <RooRunnerSection />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="520px">
             <OwningBitCompletionSection onCtaClick={handleCtaClick} />
+          </RenderBoundary>
+          <RenderBoundary intrinsicSize="90px">
+            <MarqueeStrip />
           </RenderBoundary>
           <RenderBoundary intrinsicSize="520px">
             <Footer />
