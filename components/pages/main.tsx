@@ -819,7 +819,7 @@ function Hero({
           priority
           fetchPriority="high"
           sizes="100vw"
-          quality={75}
+          quality={100}
           className="object-cover"
           style={{ objectPosition: heroImage.objectPosition ?? "center 35%" }}
         />
