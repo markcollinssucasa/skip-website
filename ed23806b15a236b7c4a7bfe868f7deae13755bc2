@@ -1,0 +1,131 @@
+app/button-demo/page.tsx
+  19913d53902a5687 4,29-44
+components/ui/animated-caret-button.tsx
+  e6b79ce5e331f21e 112
+  06026534cc921f65 15,25,56,71,85,93,101,109,111,122-124
+  c32f6ecfdd9932a5 32,36-41,44-46,105,107,117
+  19913d53902a5687 12-14,16,19-20,22,31,33-35,42-43,47-50,60,65-70,73,77-79,87,92,94-100,103-104,106,108,110,113-116,118-121,125
+app/page.tsx
+  02a1c90778f232a9 100,104
+  d77f85a040f677f4 36-42
+components/ui/fill-arrow-button.tsx
+  19913d53902a5687 1-11,13-17,22-24,28-29,31-33,36,38-46,52-58,61-62,65-66,71-108,121-125,128,132-133,135,137,141-142,158-159,161-164,168,170,172-174,179-185,187-199
+  359fa18d3f4c441d 12,18-21,25-27,30,34-35,37,47-51,59-60,63-64,67-70,109-120,126-127,129-131,134,136,138-140,143-157,160,165-167,169,171,175-178,186
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "ed23806b15a236b7c4a7bfe868f7deae13755bc2",
+  "prompts": {
+    "02a1c90778f232a9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c68c2-ac2c-7073-9fa9-636510ec9828",
+        "model": "unknown"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 6,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    },
+    "06026534cc921f65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7721cb13-c131-4a8b-8478-5dc213e1b0c1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 113,
+      "total_deletions": 103,
+      "accepted_lines": 12,
+      "overriden_lines": 1,
+      "messages_url": "https://usegitai.com/cas/3ccbe015305bbc1278b2cc222501df40259cb71c76caa630ab2b8201a30557fd"
+    },
+    "19913d53902a5687": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c732e424-e3a5-4c8f-aee1-99b062116e06",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 355,
+      "total_deletions": 109,
+      "accepted_lines": 194,
+      "overriden_lines": 2,
+      "messages_url": "https://usegitai.com/cas/aa9c0b515cfd7bc1835e7a19bf3fc5eeac56ca07a23ea595723bae0e2dd55fee"
+    },
+    "359fa18d3f4c441d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aa75a1e1-4964-4128-896e-7350cecc8d44",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 102,
+      "total_deletions": 95,
+      "accepted_lines": 73,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/68d683084f02531c52fc1ef4a792d530467448c1453cc65b644b75c9eb03ec38"
+    },
+    "c32f6ecfdd9932a5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "208a1375-104c-48e1-b7d1-b4a49c9b8255",
+        "model": "gpt-5.3-codex-high"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 14,
+      "total_deletions": 13,
+      "accepted_lines": 13,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/76db5cd999d3b4cede03cd0002590274f632a31fe7c35f5bb47ff73afb178ab3"
+    },
+    "d77f85a040f677f4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c68be-ceb9-7cf3-9347-a39e237cb34a",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 0,
+      "accepted_lines": 7,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/39e67cf1f466343a485c28e1993d63618f5e8c15c61c97b4974dda20f1acc1de"
+    },
+    "e6b79ce5e331f21e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "74a7ace7-33ce-4e1d-b84c-c431d077d789",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 57,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2cdd9f9844c4e6bd0003571040df80290d97de247f165ca001bc5a585a2f6256"
+    },
+    "e93d841059791ff3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c68e0-a0a8-7750-9c4b-705683c7c683",
+        "model": "unknown"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
