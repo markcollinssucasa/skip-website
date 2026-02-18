@@ -55,6 +55,10 @@ function ExpandingCaretButton({
   // animate FROM (CSS can't tween from `auto`).
   const [initialWidth, setInitialWidth] = React.useState<number | null>(null);
   const [launched, setLaunched] = React.useState(false);
+  const [launchViewportPosition, setLaunchViewportPosition] = React.useState<{
+    left: number;
+    top: number;
+  } | null>(null);
 
   React.useLayoutEffect(() => {
     if (buttonRef.current) {
@@ -66,6 +70,10 @@ function ExpandingCaretButton({
     (event: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(event);
       if (event.defaultPrevented || disabled || launched) return;
+      const rect = buttonRef.current?.getBoundingClientRect();
+      if (rect) {
+        setLaunchViewportPosition({ left: rect.left, top: rect.top });
+      }
       setLaunched(true);
     },
     [disabled, onClick, launched],
@@ -76,7 +84,7 @@ function ExpandingCaretButton({
       <style>{STYLES}</style>
       {/*
         Wrapper reserves the original layout footprint once the button escapes to
-        absolute on launch, so surrounding elements don't reflow.
+        fixed positioning on launch, so surrounding elements don't reflow.
       */}
       <div
         className="relative inline-flex shrink-0"
@@ -94,14 +102,22 @@ function ExpandingCaretButton({
           disabled={disabled}
           onClick={handleClick}
           style={{
-            // On launch: escape normal flow so the expansion overlays other elements.
+            // On launch: use viewport-fixed positioning and max z-index so the
+            // expansion sits above all page content.
             // Width transitions from the measured pixel value to 200vw.
-            ...(launched ? { position: "absolute", left: 0, top: 0, zIndex: 50 } : {}),
+            ...style,
+            ...(launched
+              ? {
+                  position: "fixed",
+                  left: launchViewportPosition?.left ?? 0,
+                  top: launchViewportPosition?.top ?? 0,
+                  zIndex: 2147483647,
+                }
+              : {}),
             width: launched ? "200vw" : initialWidth != null ? `${initialWidth}px` : undefined,
             transition: launched
               ? `width ${EXPAND_DURATION_MS}ms cubic-bezier(0.4, 0, 1, 0.6)`
               : "none",
-            ...style,
           }}
           className={cn(
             "h-12 shrink-0 overflow-hidden rounded-full pl-6 pr-0 text-base font-semibold shadow-[0_16px_34px_-24px_rgba(24,67,45,0.9)]",
