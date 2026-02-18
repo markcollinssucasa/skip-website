@@ -1,0 +1,24 @@
+components/ui/expanding-caret-button.tsx
+  cb798cd96bbca2d3 58-61,73-76,87,105-106,108-109,111-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "6a2ec6440e5135424a9f636206d052b9c27df612",
+  "prompts": {
+    "cb798cd96bbca2d3": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "412a9bc3-bfb6-4661-9538-c6c091cc7357",
+        "model": "gpt-5.3-codex-high"
+      },
+      "human_author": "Mark Collins <mark@sucasa.com.au>",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 4,
+      "accepted_lines": 17,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1f16dac647674470ce82de2dc5092780e0da02e46f285779ec196cf49ab22496"
+    }
+  }
+}
