@@ -5,12 +5,6 @@ export default function Home() {
     <main className="flex min-h-screen items-center justify-center flex-col gap-4">
       <div>Preferred</div>
       <Link
-        href="/option14"
-        className="text-lg text-blue-600 underline hover:text-blue-800"
-      >
-        Go to Option 14 Page (New)
-      </Link>
-      <Link
         href="/option10"
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
@@ -37,6 +31,13 @@ export default function Home() {
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
         Play Skip Roo Runner
+      </Link>
+
+      <Link
+        href="/button-demo"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        View Animated Caret Button Demo
       </Link>
 
       <div>other options</div>
@@ -95,6 +96,12 @@ export default function Home() {
         className="text-lg text-blue-600 underline hover:text-blue-800"
       >
         Go to Option 7 Page
+      </Link>
+      <Link
+        href="/option14"
+        className="text-lg text-blue-600 underline hover:text-blue-800"
+      >
+        Go to Option 14 Page
       </Link>
     </main>
   );
