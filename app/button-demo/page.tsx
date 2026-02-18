@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { AnimatedCaretButton } from "@/components/ui/animated-caret-button";
+import { ExpandingCaretButton } from "@/components/ui/expanding-caret-button";
 import { FillArrowButton } from "@/components/ui/fill-arrow-button";
 
 export default function ButtonDemoPage() {
@@ -24,6 +25,22 @@ export default function ButtonDemoPage() {
             <AnimatedCaretButton label="Get pre-approved" />
             <AnimatedCaretButton label="See rates" className="bg-brand-dark hover:bg-brand" />
             <AnimatedCaretButton label="Disabled state" disabled className="cursor-not-allowed" />
+          </div>
+        </div>
+
+        <header className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand/60">Component Demo</p>
+          <h1 className="font-display text-4xl tracking-[-0.02em] text-brand md:text-5xl">Expanding caret button</h1>
+          <p className="max-w-[56ch] text-sm text-ink/75 md:text-base">
+            On click the button expands to the right, sweeping off screen. Arrows appear to drive the leading edge of the expansion.
+          </p>
+        </header>
+
+        <div className="overflow-hidden rounded-3xl border border-brand/12 bg-white p-6 shadow-refined md:p-8">
+          <div className="flex flex-wrap items-center gap-4">
+            <ExpandingCaretButton label="Get pre-approved" />
+            <ExpandingCaretButton label="See rates" className="bg-brand-dark hover:bg-brand" />
+            <ExpandingCaretButton label="Disabled state" disabled className="cursor-not-allowed" />
           </div>
         </div>
 
