@@ -58,7 +58,6 @@ function AnimatedCaretButton({
   ...props
 }: AnimatedCaretButtonProps) {
   const [bursting, setBursting] = React.useState(false);
-  const launched = bursting;
 
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,10 +99,7 @@ function AnimatedCaretButton({
           so the loop is seamless from the very first frame.
         */}
         <span
-          className={cn(
-            "relative ml-1.5 inline-flex h-4",
-            launched ? "flex-[1_0%]" : "w-12 shrink-0 items-center",
-          )}
+          className="relative ml-1.5 inline-flex h-4 w-12 shrink-0 items-center"
           style={{
             maskImage:
               "linear-gradient(to right, transparent 0%, white 26%, white 74%, transparent 100%)",
@@ -114,14 +110,13 @@ function AnimatedCaretButton({
           {Array.from({ length: STREAM_COUNT }).map((_, i) => (
             <SkipArrow
               key={i}
-              className="absolute h-3.5 w-3.5 text-white/90"
+              className="absolute left-0 h-3.5 w-3.5 text-white/90"
               style={{
-                left: launched ? `${i * 5}px` : "0px",
                 animation: bursting
                   ? `acb-burst ${BURST_DURATION_MS}ms ease-out both`
                   : `acb-stream ${STREAM_DURATION_MS}ms linear infinite`,
                 animationDelay: bursting
-                  ? `${i * 90}ms`
+                  ? `${i * BURST_STAGGER_MS}ms`
                   : `${-((i * STREAM_DURATION_MS) / STREAM_COUNT)}ms`,
               }}
             />

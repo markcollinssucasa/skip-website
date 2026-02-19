@@ -9,24 +9,22 @@ type ExpandingCaretButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   label: string;
 };
 
-const STREAM_COUNT = 3;
-const STREAM_DURATION_MS = 2800;
+const STREAM_COUNT = 1;
+const STREAM_DURATION_MS = 2000;
 
 // When launched: tile arrows across the full button width with no gaps.
 // 14 px spacing × 220 arrows = 3080 px — covers 200vw on most screens.
 const TILE_COUNT = 220;
 const TILE_SPACING = 14; // px between arrow left positions (touching arrows)
 
-const EXPAND_DURATION_MS = 2000;
+const EXPAND_DURATION_MS = 1000;
 
 const STYLES = `
   @keyframes ecb-stream {
-    0%   { transform: translateX(-12px); opacity: 0;    }
-    20%  { opacity: 0.8;                                }
-    34%  { opacity: 1;                                  }
-    74%  { opacity: 1;                                  }
-    90%  { opacity: 0.55;                               }
-    100% { transform: translateX(60px); opacity: 0;     }
+    0%   { opacity: 0;   }
+    30%  { opacity: 1;   }
+    70%  { opacity: 1;   }
+    100% { opacity: 0;   }
   }
 `;
 
@@ -136,7 +134,7 @@ function ExpandingCaretButton({
             clips the right side naturally.
           */}
           <span
-            className={cn("relative inline-flex h-4", launched ? "flex-1 0%" : "items-center")}
+            className={cn("relative inline-flex h-4", launched ? "flex-1 0%" : "items-center justify-center")}
             style={
               launched
                 ? {
@@ -145,13 +143,9 @@ function ExpandingCaretButton({
                     marginLeft: "0.375rem",
                   }
                 : {
-                    width: "3rem",
+                    width: "2rem",
                     marginLeft: "0.375rem",
                     flexShrink: 0,
-                    maskImage:
-                      "linear-gradient(to right, transparent 0%, white 26%, white 74%, transparent 100%)",
-                    WebkitMaskImage:
-                      "linear-gradient(to right, transparent 0%, white 26%, white 74%, transparent 100%)",
                   }
             }
           >
@@ -159,7 +153,7 @@ function ExpandingCaretButton({
               ? Array.from({ length: TILE_COUNT }).map((_, i) => (
                   <SkipArrow
                     key={i}
-                    className="absolute   left-0 h-3.5 w-3.5 text-white/90"
+                    className="absolute left-0 h-3.5 w-3.5 text-white/90"
                     style={{
                       left: `${i * TILE_SPACING}px`,
                     }}
