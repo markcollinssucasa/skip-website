@@ -33,6 +33,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
+  AnimatePresence,
   domAnimation,
   LazyMotion,
   m,
@@ -49,6 +50,7 @@ import {
 /* ------------------------------------------------------------------ */
 
 const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+const SPRING_BOUNCY = { type: "spring" as const, stiffness: 400, damping: 17 };
 const APPLY_URL = "https://apply.skiploans.com.au/";
 
 interface SharedOptionHeroImage {
@@ -1351,9 +1353,9 @@ function TrustProofSection() {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.45, delay: 0.1 + index * 0.08 }}
               >
-                <Card className="border-brand/10 bg-white/85 p-4 backdrop-blur-sm">
+                <Card className="group/trust border-brand/10 bg-white/85 p-4 backdrop-blur-sm transition-all duration-300 hover:border-mint/30 hover:shadow-[0_8px_24px_-8px_rgba(121,200,155,0.25)]">
                   <div className="flex items-start gap-3">
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mint/20 text-brand">
+                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mint/20 text-brand transition-all duration-300 group-hover/trust:bg-mint/30 group-hover/trust:scale-110">
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
@@ -1386,9 +1388,9 @@ function TrustProofSection() {
           </Card>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.35 }}
+            initial={{ opacity: 0, y: 14, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.35, ease: MOTION_EASE }}
             className="absolute -bottom-6 -left-4 rounded-2xl border border-mint/35 bg-white/92 px-4 py-3 shadow-xl backdrop-blur-md md:-left-6"
           >
             <p className="text-[11px] uppercase tracking-[0.16em] text-ink/50">Approval pace</p>
@@ -1396,9 +1398,9 @@ function TrustProofSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.42 }}
+            initial={{ opacity: 0, y: -14, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.42, ease: MOTION_EASE }}
             className="absolute -top-6 right-1 rounded-2xl border border-white/30 bg-brand/90 px-4 py-3 text-white shadow-xl backdrop-blur-md md:right-3"
           >
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/65">Deposit</p>
@@ -1603,7 +1605,7 @@ function JourneySection() {
         <div className="grid gap-6 md:grid-cols-3">
           {SKIP_TO_CARDS.map((item, index) => (
             <AnimatedSection key={item.title} delay={0.1 + index * 0.1}>
-              <div className="group relative overflow-hidden rounded-[2rem] bg-ink">
+              <a href="#apply" className="group relative block overflow-hidden rounded-[2rem] bg-ink">
                 <div className="relative h-[420px] overflow-hidden">
                   <Image
                     src={item.imageSrc}
@@ -1617,11 +1619,11 @@ function JourneySection() {
                 <div className="absolute inset-x-0 bottom-0 p-7">
                   <h3 className="font-display text-3xl tracking-tight text-white">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/60">{item.description}</p>
-                  <a href="#apply" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-mint transition-colors hover:text-mint/80">
-                    Learn more <ArrowRight className="size-3.5" />
-                  </a>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-mint transition-colors group-hover:text-mint/80">
+                    Learn more <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
                 </div>
-              </div>
+              </a>
             </AnimatedSection>
           ))}
         </div>
@@ -1635,7 +1637,61 @@ function JourneySection() {
 /*  Social proof / Reviews                                             */
 /* ------------------------------------------------------------------ */
 
+function ReviewStars({ count, inView }: { count: number; inView: boolean }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: count }).map((_, j) => (
+        <m.div
+          key={j}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={inView ? { scale: 1, opacity: 1 } : {}}
+          transition={{
+            delay: j * 0.1,
+            duration: 0.35,
+            type: "spring",
+            stiffness: 500,
+            damping: 15,
+          }}
+        >
+          <Star className="h-3.5 w-3.5 fill-brand/80 text-brand/80" />
+        </m.div>
+      ))}
+    </div>
+  );
+}
+
+function ReviewCard({ review, index }: { review: (typeof REVIEW_CARDS)[number]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
+  return (
+    <AnimatedSection delay={0.15 + index * 0.08}>
+      <div ref={ref}>
+        <Card className="group/review h-full rounded-2xl border-brand/8 bg-canvas/60 transition-all duration-300 hover:border-mint/20 hover:shadow-[0_8px_24px_-8px_rgba(121,200,155,0.15)]">
+          <CardContent className="flex h-full flex-col justify-between gap-4 p-5 md:p-6">
+            <div>
+              <div className="mb-3">
+                <ReviewStars count={review.rating} inView={inView} />
+              </div>
+              <p className="text-sm leading-relaxed text-ink/70">
+                &ldquo;{review.quote}&rdquo;
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-brand">{review.name}</p>
+              <p className="text-xs text-ink/45">{review.location}</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AnimatedSection>
+  );
+}
+
 function ReviewsSection() {
+  const featuredRef = useRef<HTMLDivElement>(null);
+  const featuredInView = useInView(featuredRef, { once: true, margin: "-60px" });
+
   return (
     <section className="section-y border-y border-brand/8 bg-white">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -1651,59 +1707,54 @@ function ReviewsSection() {
         </AnimatedSection>
 
         {/* Featured testimonial */}
-        <AnimatedSection delay={0.1}>
-          <Card className="mb-6 overflow-hidden rounded-[1.75rem] border-none bg-gradient-to-br from-brand via-brand-mid to-brand-dark text-white shadow-[0_24px_60px_-24px_rgba(31,86,58,0.5)]">
-            <CardContent className="relative p-8 md:p-10 lg:p-12">
-              <div className="absolute right-6 top-6 text-[8rem] leading-none text-white/5 md:right-10 md:top-8">
-                &ldquo;
-              </div>
-              <div className="relative">
-                <div className="mb-4 flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-4 w-4 fill-mint text-mint"
-                    />
-                  ))}
+        <div ref={featuredRef}>
+          <AnimatedSection delay={0.1}>
+            <Card className="mb-6 overflow-hidden rounded-[1.75rem] border-none bg-gradient-to-br from-brand via-brand-mid to-brand-dark text-white shadow-[0_24px_60px_-24px_rgba(31,86,58,0.5)]">
+              <CardContent className="relative p-8 md:p-10 lg:p-12">
+                <m.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={featuredInView ? { scale: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="absolute right-6 top-6 text-[8rem] leading-none text-white/5 md:right-10 md:top-8"
+                >
+                  &ldquo;
+                </m.div>
+                <div className="relative">
+                  <div className="mb-4 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <m.div
+                        key={i}
+                        initial={{ scale: 0, rotate: -45 }}
+                        animate={featuredInView ? { scale: 1, rotate: 0 } : {}}
+                        transition={{
+                          delay: 0.3 + i * 0.12,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 12,
+                        }}
+                      >
+                        <Star className="h-4 w-4 fill-mint text-mint" />
+                      </m.div>
+                    ))}
+                  </div>
+                  <blockquote className="max-w-[30ch] font-display text-3xl leading-[1.05] tracking-[-0.02em] md:text-4xl lg:text-5xl">
+                    We thought we were years away from owning. Skip got us in far
+                    sooner.
+                  </blockquote>
+                  <p className="mt-5 text-sm text-white/70 md:text-base">
+                    Alicia & Tom, Inner West NSW
+                  </p>
                 </div>
-                <blockquote className="max-w-[30ch] font-display text-3xl leading-[1.05] tracking-[-0.02em] md:text-4xl lg:text-5xl">
-                  We thought we were years away from owning. Skip got us in far
-                  sooner.
-                </blockquote>
-                <p className="mt-5 text-sm text-white/70 md:text-base">
-                  Alicia & Tom, Inner West NSW
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </AnimatedSection>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+        </div>
 
-        {/* Review cards */}
+        {/* Review cards with sequential stars */}
         <div className="grid gap-4 md:grid-cols-3">
           {REVIEW_CARDS.map((review, i) => (
-            <AnimatedSection key={review.name} delay={0.15 + i * 0.08}>
-              <Card className="h-full rounded-2xl border-brand/8 bg-canvas/60">
-                <CardContent className="flex h-full flex-col justify-between gap-4 p-5 md:p-6">
-                  <div>
-                    <div className="mb-3 flex gap-0.5">
-                      {Array.from({ length: review.rating }).map((_, j) => (
-                        <Star
-                          key={j}
-                          className="h-3.5 w-3.5 fill-brand/80 text-brand/80"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-sm leading-relaxed text-ink/70">
-                      &ldquo;{review.quote}&rdquo;
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-brand">{review.name}</p>
-                    <p className="text-xs text-ink/45">{review.location}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
+            <ReviewCard key={review.name} review={review} index={i} />
           ))}
         </div>
       </div>
@@ -1716,6 +1767,8 @@ function ReviewsSection() {
 /* ------------------------------------------------------------------ */
 
 function FAQSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   return (
     <section id="faq" className="section-y bg-canvas">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -1745,22 +1798,47 @@ function FAQSection({ onCtaClick }: { onCtaClick?: (e: React.MouseEvent) => void
 
           <AnimatedSection delay={0.1}>
             <div className="space-y-3">
-              {FAQ_ITEMS.map((item) => (
-                <details
-                  key={item.question}
-                  className="group rounded-2xl border border-brand/10 bg-white p-5 transition-colors open:border-brand/25 open:bg-white md:p-6"
-                >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[0.95rem] font-semibold text-brand md:text-base">
-                    {item.question}
-                    <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mint/15 text-sm text-brand transition-transform group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-ink/60 md:text-[0.92rem]">
-                    {item.answer}
-                  </p>
-                </details>
-              ))}
+              {FAQ_ITEMS.map((item, index) => {
+                const isOpen = openIndex === index;
+                return (
+                  <div
+                    key={item.question}
+                    className={`rounded-2xl border bg-white p-5 transition-all duration-300 md:p-6 ${
+                      isOpen ? "border-brand/25 shadow-[0_4px_16px_-4px_rgba(31,86,58,0.1)]" : "border-brand/10"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenIndex(isOpen ? null : index)}
+                      className="flex w-full cursor-pointer items-center justify-between gap-4 text-left text-[0.95rem] font-semibold text-brand md:text-base"
+                    >
+                      {item.question}
+                      <m.span
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={SPRING_BOUNCY}
+                        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mint/15 text-sm text-brand"
+                      >
+                        +
+                      </m.span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: MOTION_EASE }}
+                          className="overflow-hidden"
+                        >
+                          <p className="pt-3 text-sm leading-relaxed text-ink/60 md:text-[0.92rem]">
+                            {item.answer}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
           </AnimatedSection>
         </div>
